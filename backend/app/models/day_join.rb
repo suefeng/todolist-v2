@@ -1,0 +1,2 @@
+class DayJoin < ApplicationRecord
+end

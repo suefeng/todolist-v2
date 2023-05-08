@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  repeating_id: 1
+  todo_id: 1
+
+two:
+  repeating_id: 1
+  todo_id: 1
