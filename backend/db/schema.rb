@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2023_03_16_045720) do
     t.date "expiration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "status"
+    t.string "status", default: "not-started"
   end
 
 end
