@@ -1,3 +1,46 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "extends": [
+    "sonarqube",
+    "plugin:sonarjs/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
+  ],
+  "plugins": [
+    "sonarjs",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaversion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest/globals": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "globals": {
+    "globalThis": true
+  },
+  "rules": {
+    "react/function-component-definition": "off",
+    "react/jsx-boolean-value": "off",
+    "testing-library/render-result-naming-convention": "off",
+    "camelcase": "off"
+  }
 }
