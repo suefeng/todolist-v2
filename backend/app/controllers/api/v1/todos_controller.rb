@@ -1,19 +1,10 @@
 class Api::V1::TodosController < ApplicationController
-  before_action :set_todo, only: [:show, :update, :destroy]
+  before_action :set_todo, only: %i[show update destroy]
 
   # GET /todos
   def index
     @todos = Todo.all
-    filter = params[:filter]
-    type = params[:type]
-
-    if filter.nil? || type.nil?
-      render_todos = @todos
-    else
-      render_todos = @todos.includes(:categories).where(categories:{name:filter})  if type == 'category'
-      render_todos = @todos.includes(:repeatings).where(repeatings:{name:filter})  if type == 'repeating'
-      render_todos = @todos.where(expiration:filter)  if type == 'expiration'
-    end
+    render_todos = render_todos_by_conditions
 
     render json: render_todos.as_json(todos_json)
   end
@@ -49,27 +40,53 @@ class Api::V1::TodosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo
-      @todo = Todo.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def todo_params
-      params.require(:todo).permit(
-        :description, 
-        :expiration,
-        :status
-      )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_todo
+    @todo = Todo.find(params[:id])
+  end
 
-    def todos_json
-      {
-        only: %i[id description expiration status],
-        include: {
-          categories: {only: %i[id name]},
-          repeatings: {only: %i[id name]}
-        }
+  # Only allow a trusted parameter "white list" through.
+  def todo_params
+    params.require(:todo).permit(
+      :description,
+      :expiration,
+      :status
+    )
+  end
+
+  def todos_json
+    {
+      only: %i[id description expiration status],
+      include: {
+        categories: { only: %i[id name] },
+        repeatings: { only: %i[id name] }
       }
+    }
+  end
+
+  def render_categories
+    @todos.includes(:categories).where(categories: { name: filter })
+  end
+
+  def render_repeatings
+    @todos.includes(:repeatings).where(repeatings: { name: filter })
+  end
+
+  def render_expirations
+    @todos.where(expiration: filter)
+  end
+
+  def render_todos_by_conditions
+    filter = params[:filter]
+    type = params[:type]
+
+    if filter.nil? || type.nil?
+      @todos
+    else
+      return render_categories if type == 'category'
+      return render_repeatings if type == 'repeating'
+      return render_expiration if type == 'expiration'
     end
+  end
 end

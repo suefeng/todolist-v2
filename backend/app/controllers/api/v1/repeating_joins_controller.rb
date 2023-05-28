@@ -1,5 +1,5 @@
 class Api::V1::RepeatingJoinsController < ApplicationController
-  before_action :set_repeating_join, only: [:show, :update, :destroy]
+  before_action :set_repeating_join, only: %i[show update destroy]
 
   # GET /repeating_joins
   def index
@@ -39,13 +39,14 @@ class Api::V1::RepeatingJoinsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_repeating_join
-      @repeating_join = RepeatingJoin.find_by(todo_id: params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def repeating_join_params
-      params.require(:repeating_join).permit(:repeating_id, :todo_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_repeating_join
+    @repeating_join = RepeatingJoin.find_by(todo_id: params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def repeating_join_params
+    params.require(:repeating_join).permit(:repeating_id, :todo_id)
+  end
 end

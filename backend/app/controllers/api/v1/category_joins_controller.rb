@@ -1,5 +1,5 @@
 class Api::V1::CategoryJoinsController < ApplicationController
-  before_action :set_category_join, only: [:show, :update, :destroy]
+  before_action :set_category_join, only: %i[show update destroy]
 
   # GET /category_joins
   def index
@@ -39,13 +39,14 @@ class Api::V1::CategoryJoinsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_category_join
-      @category_join = CategoryJoin.find_by(todo_id: params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def category_join_params
-      params.require(:category_join).permit(:category_id, :todo_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_category_join
+    @category_join = CategoryJoin.find_by(todo_id: params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def category_join_params
+    params.require(:category_join).permit(:category_id, :todo_id)
+  end
 end
