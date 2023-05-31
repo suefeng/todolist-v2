@@ -101,7 +101,7 @@ const TodoList = ({ filter = "", type = "" }: TodoListTypes) => {
                   description={todo.description}
                   expiration={todo.expiration}
                   categories={todo.categories}
-                  repeatings={todo.repeatings}
+                  frequencies={todo.frequencies}
                 />
                 <span
                   className={

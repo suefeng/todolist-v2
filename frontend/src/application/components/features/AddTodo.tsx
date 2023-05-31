@@ -5,31 +5,31 @@ import Textarea from "application/components/form/Textarea";
 import Select from "application/components/form/Select";
 import { useTodosCreate } from "infrastructure/api/todos";
 import { useCategories } from "infrastructure/api/categories";
-import { useRepeatings } from "infrastructure/api/repeatings";
+import { useFrequencies } from "infrastructure/api/frequencies";
 import { useCategoryJoinCreation } from "infrastructure/api/category_joins";
-import { useRepeatingJoinCreation } from "infrastructure/api/repeating_joins";
+import { useFrequencyJoinCreation } from "infrastructure/api/frequency_joins";
 import { Category } from "domain/entities/Category";
-import { Repeating } from "domain/entities/Repeating";
+import { Frequency } from "domain/entities/Frequency";
 import { formatDate } from "domain/services/date.services";
 
 export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
   const { mutateAsync: createTodo } = useTodosCreate();
   const { mutateAsync: createCategory } = useCategoryJoinCreation();
-  const { mutateAsync: createRepeating } = useRepeatingJoinCreation();
+  const { mutateAsync: createFrequency } = useFrequencyJoinCreation();
   const {
     data: categories,
     isLoading: loadingCategories,
     isFetching: fetchingCategories,
   } = useCategories();
   const {
-    data: repeatings,
-    isLoading: loadingRepeatings,
-    isFetching: fetchingRepeatings,
-  } = useRepeatings();
+    data: frequencies,
+    isLoading: loadingFrequencies,
+    isFetching: fetchingFrequencies,
+  } = useFrequencies();
 
   type ValueTypes = {
     category: string;
-    repeating: string;
+    frequency: string;
     expiration?: string;
     description?: string;
   };
@@ -45,9 +45,9 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
         todo_id: todo.id,
       });
     }
-    if (values.repeating) {
-      await createRepeating({
-        repeating_id: Number(values.repeating),
+    if (values.frequency) {
+      await createFrequency({
+        frequency_id: Number(values.frequency),
         todo_id: todo.id,
       });
     }
@@ -62,7 +62,7 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
         description: "",
         expiration: "",
         category: "",
-        repeating: "",
+        frequency: "",
       }}
       handleOnSubmit={handleOnSubmit}
       buttonText="Add todo"
@@ -117,7 +117,7 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
                 </Field>
               </div>
             )}
-            {loadingRepeatings && fetchingRepeatings ? (
+            {loadingFrequencies && fetchingFrequencies ? (
               "loading"
             ) : (
               <div className="flex-1 my-3">
@@ -125,14 +125,14 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
                   touched={touched}
                   errors={errors}
                   as={Select}
-                  id="repeating"
-                  name="repeating"
+                  id="frequency"
+                  name="frequency"
                 >
                   <option className="bg-white hover:bg-sky-400" value="">
                     select
                   </option>
-                  {repeatings.length > 0
-                    ? repeatings.map((option: Repeating) => (
+                  {frequencies.length > 0
+                    ? frequencies.map((option: Frequency) => (
                         <option
                           className="bg-white hover:bg-sky-400"
                           key={option.id}

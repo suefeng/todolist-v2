@@ -8,7 +8,7 @@ export const TodoDescription = ({
   description,
   expiration,
   categories,
-  repeatings,
+  frequencies,
   status,
 }: CreateTodoList) => {
   const TodoLink = ({
@@ -28,7 +28,7 @@ export const TodoDescription = ({
           } else {
             return "bg-white";
           }
-        case "repeating":
+        case "frequency":
           return "bg-green-200";
       }
     };
@@ -80,12 +80,12 @@ export const TodoDescription = ({
           {expiration && (
             <TodoLink filterOption={expiration} typeOption="expiration" />
           )}
-          {repeatings &&
-            repeatings.map((repeat: { name: string }) => (
+          {frequencies &&
+            frequencies.map((repeat: { name: string }) => (
               <TodoLink
                 key={repeat.name}
                 filterOption={repeat.name}
-                typeOption="repeating"
+                typeOption="frequency"
               />
             ))}
         </span>

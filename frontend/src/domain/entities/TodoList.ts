@@ -1,12 +1,14 @@
 import { Category } from "./Category";
-import {Repeating} from "./Repeating";
+import { Day } from "./Day";
+import { Frequency } from "./Frequency";
 
 export interface TodoList {
   categories?: Category[];
   description?: string;
   expiration?: string;
   id: number;
-  repeatings?: Repeating[];
+  frequency?: Frequency;
+  day?: Day;
   status?: string;
 }
 
@@ -14,6 +16,7 @@ export interface CreateTodoList {
   categories?: Category[];
   description?: string;
   expiration?: string;
-  repeatings?: Repeating[];
+  frequency?: Frequency;
+  day?: Day;
   status?: string;
 }

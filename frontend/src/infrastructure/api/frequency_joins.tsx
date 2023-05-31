@@ -1,12 +1,12 @@
 import { useMutation } from "react-query";
 import http from "infrastructure/utilities/http";
 import { z } from "zod";
-import { RepeatingJoin } from "domain/server/RepeatingJoin";
+import { FrequencyJoin } from "domain/server/FrequencyJoin";
 
-export const useRepeatingJoinCreation = () =>
+export const useFrequencyJoinCreation = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof RepeatingJoin>) => {
-      const response = await http.post(`/api/v1/repeating_joins`, {
+    mutationFn: async (params: z.infer<typeof FrequencyJoin>) => {
+      const response = await http.post(`/api/v1/frequency_joins`, {
         body: JSON.stringify({ ...params }),
       });
       const result = await response.json();
@@ -17,11 +17,11 @@ export const useRepeatingJoinCreation = () =>
     },
   });
 
-export const useRepeatingJoinUpdate = () =>
+export const useFrequencyJoinUpdate = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof RepeatingJoin>) => {
+    mutationFn: async (params: z.infer<typeof FrequencyJoin>) => {
       const response = await http.put(
-        `/api/v1/repeating_joins/${params.todo_id}`,
+        `/api/v1/frequency_joins/${params.todo_id}`,
         {
           body: JSON.stringify({ ...params }),
         }

@@ -6,15 +6,15 @@ import Textarea from "application/components/form/Textarea";
 import Select from "application/components/form/Select";
 import { useTodoShow, useTodosUpdate } from "infrastructure/api/todos";
 import { useCategories } from "infrastructure/api/categories";
-import { useRepeatings } from "infrastructure/api/repeatings";
+import { useFrequencies } from "infrastructure/api/frequencies";
 import {
   useCategoryJoinUpdate,
   useCategoryJoinCreation,
 } from "infrastructure/api/category_joins";
 import {
-  useRepeatingJoinUpdate,
-  useRepeatingJoinCreation,
-} from "infrastructure/api/repeating_joins";
+  useFrequencyJoinUpdate,
+  useFrequencyJoinCreation,
+} from "infrastructure/api/frequency_joins";
 import { Category } from "domain/entities/Category";
 import { useRouter } from "next/router";
 import { URLS } from "infrastructure/router/routes";
@@ -28,19 +28,19 @@ export const EditTodoForm = ({
 }) => {
   const { mutate: editTodo } = useTodosUpdate();
   const { mutate: editCategory } = useCategoryJoinUpdate();
-  const { mutate: editRepeating } = useRepeatingJoinUpdate();
+  const { mutate: editFrequency } = useFrequencyJoinUpdate();
   const { mutate: createCategory } = useCategoryJoinCreation();
-  const { mutate: createRepeating } = useRepeatingJoinCreation();
+  const { mutate: createFrequency } = useFrequencyJoinCreation();
   const {
     data: categories,
     isLoading: loadingCategories,
     isFetching: fetchingCategories,
   } = useCategories();
   const {
-    data: repeatings,
-    isLoading: loadingRepeatings,
-    isFetching: fetchingRepeatings,
-  } = useRepeatings();
+    data: frequencies,
+    isLoading: loadingFrequencies,
+    isFetching: fetchingFrequencies,
+  } = useFrequencies();
   const {
     data: todoShow,
     isLoading: todoShowLoading,
@@ -50,7 +50,7 @@ export const EditTodoForm = ({
 
   type ValueTypes = {
     category: string;
-    repeating: string;
+    frequency: string;
     expiration?: string;
     description?: string;
   };
@@ -72,15 +72,15 @@ export const EditTodoForm = ({
         category_id: Number(values.category),
       });
     }
-    if (todoShow.repeatings[0]) {
-      editRepeating({
+    if (todoShow.frequencies[0]) {
+      editFrequency({
         todo_id: todoId,
-        repeating_id: Number(values.repeating),
+        frequency_id: Number(values.frequency),
       });
     } else {
-      createRepeating({
+      createFrequency({
         todo_id: todoId,
-        repeating_id: Number(values.repeating),
+        frequency_id: Number(values.frequency),
       });
     }
     setTimeout(() => {
@@ -91,13 +91,14 @@ export const EditTodoForm = ({
   let description = "";
   let expiration = "";
   let category = "";
-  let repeating = "";
+  let frequency = "";
   if (todoShowLoading || todoShowFetching) {
   } else {
     description = todoShow.description || "";
     expiration = todoShow.expiration || "";
     category = todoShow.categories.length > 0 ? todoShow.categories[0].id : "";
-    repeating = todoShow.repeatings.length > 0 ? todoShow.repeatings[0].id : "";
+    frequency =
+      todoShow.frequencies.length > 0 ? todoShow.frequencies[0].id : "";
   }
 
   return todoShowLoading || todoShowFetching ? (
@@ -108,7 +109,7 @@ export const EditTodoForm = ({
         description: description,
         expiration: expiration,
         category: category,
-        repeating: repeating,
+        frequency: frequency,
       }}
       handleOnSubmit={handleOnSubmit}
       buttonText="Edit todo"
@@ -163,7 +164,7 @@ export const EditTodoForm = ({
                 </Field>
               </div>
             )}
-            {loadingRepeatings && fetchingRepeatings ? (
+            {loadingFrequencies && fetchingFrequencies ? (
               "loading"
             ) : (
               <div className="flex-1 my-3">
@@ -171,14 +172,14 @@ export const EditTodoForm = ({
                   touched={touched}
                   errors={errors}
                   as={Select}
-                  id="repeating"
-                  name="repeating"
+                  id="frequency"
+                  name="frequency"
                 >
                   <option className="bg-white hover:bg-sky-400" value="">
                     select
                   </option>
-                  {repeatings.length > 0
-                    ? repeatings.map((option: Category) => (
+                  {frequencies.length > 0
+                    ? frequencies.map((option: Category) => (
                         <option
                           className="bg-white hover:bg-sky-400"
                           key={option.id}
