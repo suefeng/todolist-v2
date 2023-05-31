@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RepeatingTest < ActiveSupport::TestCase
+class FrequencyTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

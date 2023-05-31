@@ -60,7 +60,7 @@ class Api::V1::TodosController < ApplicationController
       only: %i[id description expiration status],
       include: {
         categories: { only: %i[id name] },
-        repeatings: { only: %i[id name] }
+        frequencies: { only: %i[id name] }
       }
     }
   end
@@ -69,8 +69,8 @@ class Api::V1::TodosController < ApplicationController
     @todos.includes(:categories).where(categories: { name: filter })
   end
 
-  def render_repeatings
-    @todos.includes(:repeatings).where(repeatings: { name: filter })
+  def render_frequencies
+    @todos.includes(:frequencies).where(frequencies: { name: filter })
   end
 
   def render_expirations
@@ -85,7 +85,7 @@ class Api::V1::TodosController < ApplicationController
       @todos
     else
       return render_categories if type == 'category'
-      return render_repeatings if type == 'repeating'
+      return render_frequencies if type == 'frequency'
       return render_expiration if type == 'expiration'
     end
   end

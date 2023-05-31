@@ -1,36 +1,38 @@
 require 'test_helper'
 
-class RepeatingJoinsControllerTest < ActionDispatch::IntegrationTest
+class FrequencyJoinsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @repeating_join = repeating_joins(:one)
+    @frequency_join = frequency_joins(:one)
   end
 
-  test "should get index" do
-    get repeating_joins_url, as: :json
+  test 'should get index' do
+    get frequency_joins_url, as: :json
     assert_response :success
   end
 
-  test "should create repeating_join" do
-    assert_difference('RepeatingJoin.count') do
-      post repeating_joins_url, params: { repeating_join: { repeating_id: @repeating_join.repeating_id, todo_id: @repeating_join.todo_id } }, as: :json
+  test 'should create frequency_join' do
+    assert_difference('FrequencyJoin.count') do
+      post frequency_joins_url,
+           params: { frequency_join: { frequency_id: @frequency_join.frequency_id, todo_id: @frequency_join.todo_id } }, as: :json
     end
 
     assert_response 201
   end
 
-  test "should show repeating_join" do
-    get repeating_join_url(@repeating_join), as: :json
+  test 'should show frequency_join' do
+    get frequency_join_url(@frequency_join), as: :json
     assert_response :success
   end
 
-  test "should update repeating_join" do
-    patch repeating_join_url(@repeating_join), params: { repeating_join: { repeating_id: @repeating_join.repeating_id, todo_id: @repeating_join.todo_id } }, as: :json
+  test 'should update frequency_join' do
+    patch frequency_join_url(@frequency_join),
+          params: { frequency_join: { frequency_id: @frequency_join.frequency_id, todo_id: @frequency_join.todo_id } }, as: :json
     assert_response 200
   end
 
-  test "should destroy repeating_join" do
-    assert_difference('RepeatingJoin.count', -1) do
-      delete repeating_join_url(@repeating_join), as: :json
+  test 'should destroy frequency_join' do
+    assert_difference('FrequencyJoin.count', -1) do
+      delete frequency_join_url(@frequency_join), as: :json
     end
 
     assert_response 204

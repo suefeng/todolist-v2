@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RepeatingJoinTest < ActiveSupport::TestCase
+class FrequencyJoinTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

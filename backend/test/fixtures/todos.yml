@@ -4,10 +4,10 @@ one:
   category: 
   description: MyString
   expiration: 2023-03-07
-  repeating: MyString
+  frequency: MyString
 
 two:
   category: 
   description: MyString
   expiration: 2023-03-07
-  repeating: MyString
+  frequency: MyString
