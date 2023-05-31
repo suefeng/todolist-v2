@@ -81,10 +81,10 @@ export const TodoDescription = ({
             <TodoLink filterOption={expiration} typeOption="expiration" />
           )}
           {frequencies &&
-            frequencies.map((repeat: { name: string }) => (
+            frequencies.map((frequency: { name: string }) => (
               <TodoLink
-                key={repeat.name}
-                filterOption={repeat.name}
+                key={frequency.name}
+                filterOption={frequency.name}
                 typeOption="frequency"
               />
             ))}

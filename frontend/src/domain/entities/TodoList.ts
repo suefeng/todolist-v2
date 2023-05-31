@@ -7,7 +7,7 @@ export interface TodoList {
   description?: string;
   expiration?: string;
   id: number;
-  frequency?: Frequency;
+  frequencies?: Frequency[];
   day?: Day;
   status?: string;
 }
@@ -16,7 +16,7 @@ export interface CreateTodoList {
   categories?: Category[];
   description?: string;
   expiration?: string;
-  frequency?: Frequency;
+  frequencies?: Frequency[];
   day?: Day;
   status?: string;
 }

@@ -6,7 +6,6 @@ import {
   TodoList,
 } from "domain/server/TodoList";
 import { z } from "zod";
-import { SortedTodos } from "domain/server/Todo/todo.aggregator";
 
 export const useTodos = ({
   filter = "",

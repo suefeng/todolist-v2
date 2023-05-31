@@ -8,7 +8,7 @@ export const TodoList = z.object({
   description: z.string().optional(),
   expiration: z.string().optional(),
   id: z.number(),
-  frequency: Frequency.optional(),
+  frequencies: z.array(Frequency).optional(),
   days: z.array(Day).optional(),
   status: z.string().optional(),
 });
@@ -19,7 +19,7 @@ export const CreateTodoList = z.object({
   categories: z.array(Category).optional(),
   description: z.string().optional(),
   expiration: z.string().optional(),
-  frequency: Frequency.optional(),
+  frequencies: z.array(Frequency).optional(),
   days: z.array(Day).optional(),
   status: z.string().optional(),
 });
