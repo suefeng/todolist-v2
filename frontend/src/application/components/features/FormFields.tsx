@@ -2,7 +2,6 @@ import React from 'react';
 import { Field } from 'formik';
 
 import { Category } from 'domain/entities/Category';
-import { URLS } from 'infrastructure/router/routes';
 import Input from 'application/components/form/Input';
 import Select from 'application/components/form/Select';
 import Textarea from 'application/components/form/Textarea';
