@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useTodosDestroy } from "infrastructure/api/todos";
-import { Button } from "application/components/Button";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { Toast } from "application/components/Toast";
+import React from 'react';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+
+import { useTodosDestroy } from 'infrastructure/api/todos';
+import { Button } from 'application/components/Button';
 
 export const DeleteTodo = ({
   todoId,

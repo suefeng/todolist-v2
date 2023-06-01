@@ -21,7 +21,7 @@ const Input = ({
       {labelText ? <span className="label-text">{labelText}</span> : null}
       <div>
         <input
-          className="w-full py-3 px-3 overflow-hidden rounded-md bg-white shadow-xl shadow-black/5 ring-1 ring-late-700/10"
+          className="ring-late-700/10 w-full overflow-hidden rounded-md bg-white px-3 py-3 shadow-xl shadow-black/5 ring-1"
           id={id}
           name={name}
           {...props}
@@ -32,6 +32,6 @@ const Input = ({
   );
 };
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 export default Input;

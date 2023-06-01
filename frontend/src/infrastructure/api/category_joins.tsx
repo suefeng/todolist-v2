@@ -1,7 +1,8 @@
-import { useMutation } from "react-query";
-import http from "infrastructure/utilities/http";
-import { CategoryJoin } from "domain/server/CategoryJoin";
-import { z } from "zod";
+import { useMutation } from 'react-query';
+import { z } from 'zod';
+
+import { CategoryJoin } from 'domain/server/CategoryJoin';
+import http from 'infrastructure/utilities/http';
 
 export const useCategoryJoinCreation = () =>
   useMutation({
@@ -24,7 +25,7 @@ export const useCategoryJoinUpdate = () =>
         `/api/v1/category_joins/${params.todo_id}`,
         {
           body: JSON.stringify({ ...params }),
-        }
+        },
       );
       const result = await response.json();
 

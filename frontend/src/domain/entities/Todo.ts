@@ -1,8 +1,8 @@
-import { Category } from "./Category";
-import { Day } from "./Day";
-import { Frequency } from "./Frequency";
+import { Category } from './Category';
+import { Day } from './Day';
+import { Frequency } from './Frequency';
 
-export interface TodoList {
+export interface Todo {
   categories?: Category[];
   description?: string;
   expiration?: string;
@@ -12,7 +12,7 @@ export interface TodoList {
   status?: string;
 }
 
-export interface CreateTodoList {
+export interface CreateTodo {
   categories?: Category[];
   description?: string;
   expiration?: string;

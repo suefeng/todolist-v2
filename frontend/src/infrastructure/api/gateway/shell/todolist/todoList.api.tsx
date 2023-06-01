@@ -1,7 +1,7 @@
-import { TodoList } from "domain/entities/TodoList";
-import { Category } from "domain/entities/Category";
-import { Fetcher, ResponseTL } from "infrastructure/api/common";
-import { handleError } from "infrastructure/api/common/handleError";
+import { Category } from 'domain/entities/Category';
+import { Todo } from 'domain/entities/Todo';
+import { Fetcher, ResponseTL } from 'infrastructure/api/common';
+import { handleError } from 'infrastructure/api/common/handleError';
 
 /** @type {import('../../../../../../app/api/shell/todolist/route').HandlerResponse}  */
 
@@ -16,7 +16,7 @@ export const fetchTodolist =
     try {
       return await fetcher(url);
     } catch (error) {
-      return handleError({ error, origin: "fetchTodolist" });
+      return handleError({ error, origin: 'fetchTodolist' });
     }
   };
 
@@ -34,7 +34,7 @@ export const fetchTodoListItemResponse =
     try {
       return await fetcher(url);
     } catch (error) {
-      return handleError({ error, origin: "fetchTodoListItemResponse" });
+      return handleError({ error, origin: 'fetchTodoListItemResponse' });
     }
   };
 
@@ -48,13 +48,13 @@ export const createTodoListItem =
     expiration?: string,
     frequency?: string,
     day?: string,
-    status?: string
+    status?: string,
   ) => {
     const url = `/api/shell/todolist`;
 
     try {
       return await fetcher(url, { body: {} });
     } catch (error) {
-      return handleError({ error, origin: "createTodoListItem" });
+      return handleError({ error, origin: 'createTodoListItem' });
     }
   };

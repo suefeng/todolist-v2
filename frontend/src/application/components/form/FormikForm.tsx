@@ -1,5 +1,6 @@
-import { Formik, Form } from "formik";
-import { Button } from "application/components/Button";
+import { Form, Formik } from 'formik';
+
+import { Button } from 'application/components/Button';
 
 type FormikFormTypes = {
   children: any;
@@ -27,7 +28,10 @@ const FormikForm = ({
   initialValues,
   buttonText,
 }: FormikFormTypes) => (
-  <Formik initialValues={initialValues} onSubmit={handleOnSubmit}>
+  <Formik
+    initialValues={initialValues}
+    onSubmit={handleOnSubmit}
+  >
     {({
       handleSubmit,
       isSubmitting,
@@ -45,10 +49,14 @@ const FormikForm = ({
               touched,
               setFieldValue,
               handleBlur,
-              setFieldTouched
+              setFieldTouched,
             )}
             <div className="mt-3">
-              <Button id="submit" type="submit" disabled={isSubmitting}>
+              <Button
+                id="submit"
+                type="submit"
+                disabled={isSubmitting}
+              >
                 {buttonText}
               </Button>
             </div>

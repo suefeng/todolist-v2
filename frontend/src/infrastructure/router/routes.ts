@@ -1,7 +1,7 @@
 export const URLS = {
-  notes: "/notes",
-  todos: "/todos",
-  todosAdd: "/todos/add",
+  notes: '/notes',
+  todos: '/todos',
+  todosAdd: '/todos/add',
   todoFilter: (filter: string, type: string) =>
     `/todos/${type}?filter=${filter}`,
   todoShow: (todoId: number) => `/todos/${todoId}`,
@@ -11,11 +11,11 @@ export const URLS = {
 export const publicRoutes = {
   general: [
     {
-      name: "Todos",
+      name: 'Todos',
       href: URLS.todos,
     },
     {
-      name: "Notes",
+      name: 'Notes',
       href: URLS.notes,
     },
   ],

@@ -1,7 +1,8 @@
-import { useMutation } from "react-query";
-import http from "infrastructure/utilities/http";
-import { z } from "zod";
-import { FrequencyJoin } from "domain/server/FrequencyJoin";
+import { useMutation } from 'react-query';
+import { z } from 'zod';
+
+import { FrequencyJoin } from 'domain/server/FrequencyJoin';
+import http from 'infrastructure/utilities/http';
 
 export const useFrequencyJoinCreation = () =>
   useMutation({
@@ -24,7 +25,7 @@ export const useFrequencyJoinUpdate = () =>
         `/api/v1/frequency_joins/${params.todo_id}`,
         {
           body: JSON.stringify({ ...params }),
-        }
+        },
       );
       const result = await response.json();
 

@@ -1,10 +1,10 @@
-const DELETE = "DELETE";
-const GET = "GET";
-const PATCH = "PATCH";
-const POST = "POST";
-const PUT = "PUT";
+const DELETE = 'DELETE';
+const GET = 'GET';
+const PATCH = 'PATCH';
+const POST = 'POST';
+const PUT = 'PUT';
 
-const PREFIX = process.env.GATEWAY_ENDPOINT || "";
+const PREFIX = process.env.GATEWAY_ENDPOINT || '';
 
 // export const getCsrfToken = () => {
 //   const csrfToken = document.querySelector('meta[name="csrf-token"]');
@@ -12,17 +12,26 @@ const PREFIX = process.env.GATEWAY_ENDPOINT || "";
 // };
 
 const DEFAULT_HEADERS = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 };
 
-const buildInit = (method: string, headers: HeadersInit, options: object): RequestInit => ({
+const buildInit = (
+  method: string,
+  headers: HeadersInit,
+  options: object,
+): RequestInit => ({
   method,
   headers,
   ...options,
 });
 
-const createRequest = (method: string, url: string, options: object, headers: HeadersInit) => {
+const createRequest = (
+  method: string,
+  url: string,
+  options: object,
+  headers: HeadersInit,
+) => {
   const init = buildInit(method, headers, options);
   return fetch(`${PREFIX}${url}`, init);
 };

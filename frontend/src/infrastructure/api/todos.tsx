@@ -1,25 +1,22 @@
-import { useMutation, useQuery } from "react-query";
-import http from "infrastructure/utilities/http";
-import {
-  CreateTodoList,
-  DestroyTodoList,
-  TodoList,
-} from "domain/server/TodoList";
-import { z } from "zod";
+import { useMutation, useQuery } from 'react-query';
+import { z } from 'zod';
+
+import { CreateTodo, DestroyTodoList, TodoList } from 'domain/server/Todo/todo';
+import http from 'infrastructure/utilities/http';
 
 export const useTodos = ({
-  filter = "",
-  type = "",
+  filter = '',
+  type = '',
   addId,
 }: {
   filter?: string;
   type?: string;
   addId?: number;
 }) => {
-  const filterParam = filter !== "" ? `?filter=${filter}&type=${type}` : "";
+  const filterParam = filter !== '' ? `?filter=${filter}&type=${type}` : '';
 
   return useQuery({
-    queryKey: ["todos", filter, addId],
+    queryKey: ['todos', filter, addId],
     queryFn: () =>
       http
         .get(`/api/v1/todos${filterParam}`)
@@ -29,7 +26,7 @@ export const useTodos = ({
 
 export const useTodoShow = (todoId: number) => {
   return useQuery({
-    queryKey: ["todos", todoId],
+    queryKey: ['todos', todoId],
     queryFn: () =>
       http.get(`/api/v1/todos/${todoId}`).then((response) => response.json()),
   });
@@ -37,7 +34,7 @@ export const useTodoShow = (todoId: number) => {
 
 export const useTodosCreate = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof CreateTodoList>) => {
+    mutationFn: async (params: z.infer<typeof CreateTodo>) => {
       const response = await http.post(`/api/v1/todos`, {
         body: JSON.stringify({ ...params }),
       });

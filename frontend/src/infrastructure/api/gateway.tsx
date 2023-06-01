@@ -1,8 +1,8 @@
-import { createAPI } from "infrastructure/services/api/api.service";
-import * as todoListAPI from "./gateway/shell/todolist/todoList.api";
-import * as categoriesAPI from "./gateway/shell/categories/categories.api";
-import * as frequenciesAPI from "./gateway/shell/frequencies/frequencies.api";
-import * as daysAPI from "./gateway/shell/days/days.api";
+import { createAPI } from 'infrastructure/services/api/api.service';
+import * as categoriesAPI from './gateway/shell/categories/categories.api';
+import * as daysAPI from './gateway/shell/days/days.api';
+import * as frequenciesAPI from './gateway/shell/frequencies/frequencies.api';
+import * as todoListAPI from './gateway/shell/todolist/todoList.api';
 
 const apiGateway = {
   todoList: todoListAPI,

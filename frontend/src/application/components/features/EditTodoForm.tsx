@@ -1,23 +1,19 @@
-import React from "react";
-import { Field } from "formik";
-import FormikForm from "application/components/form/FormikForm";
-import Input from "application/components/form/Input";
-import Textarea from "application/components/form/Textarea";
-import Select from "application/components/form/Select";
-import { useTodoShow, useTodosUpdate } from "infrastructure/api/todos";
-import { useCategories } from "infrastructure/api/categories";
-import { useFrequencies } from "infrastructure/api/frequencies";
+import React from 'react';
+import { useRouter } from 'next/router';
+
+import { useCategories } from 'infrastructure/api/categories';
 import {
-  useCategoryJoinUpdate,
   useCategoryJoinCreation,
-} from "infrastructure/api/category_joins";
+  useCategoryJoinUpdate,
+} from 'infrastructure/api/category_joins';
+import { useFrequencies } from 'infrastructure/api/frequencies';
 import {
-  useFrequencyJoinUpdate,
   useFrequencyJoinCreation,
-} from "infrastructure/api/frequency_joins";
-import { Category } from "domain/entities/Category";
-import { useRouter } from "next/router";
-import { URLS } from "infrastructure/router/routes";
+  useFrequencyJoinUpdate,
+} from 'infrastructure/api/frequency_joins';
+import { useTodoShow, useTodosUpdate } from 'infrastructure/api/todos';
+import FormikForm from 'application/components/form/FormikForm';
+import { FormFields } from './FormFields';
 
 export const EditTodoForm = ({
   todoId,
@@ -88,17 +84,18 @@ export const EditTodoForm = ({
     }, 1000);
   };
 
-  let description = "";
-  let expiration = "";
-  let category = "";
-  let frequency = "";
+  let description = '';
+  let expiration = '';
+  let category = '';
+  let frequency = '';
+
   if (todoShowLoading || todoShowFetching) {
   } else {
-    description = todoShow.description || "";
-    expiration = todoShow.expiration || "";
-    category = todoShow.categories.length > 0 ? todoShow.categories[0].id : "";
+    description = todoShow.description || '';
+    expiration = todoShow.expiration || '';
+    category = todoShow.categories.length > 0 ? todoShow.categories[0].id : '';
     frequency =
-      todoShow.frequencies.length > 0 ? todoShow.frequencies[0].id : "";
+      todoShow.frequencies.length > 0 ? todoShow.frequencies[0].id : '';
   }
 
   return todoShowLoading || todoShowFetching ? (
@@ -115,85 +112,16 @@ export const EditTodoForm = ({
       buttonText="Edit todo"
     >
       {(errors?: object, touched?: object) => (
-        <>
-          <div>
-            <Field
-              id="description"
-              name="description"
-              touched={touched}
-              errors={errors}
-              as={Textarea}
-            />
-          </div>
-          <div className="flex flex-row gap-3">
-            <div className="my-3 flex-1">
-              <Field
-                id="expiration"
-                name="expiration"
-                touched={touched}
-                errors={errors}
-                as={Input}
-                type="date"
-              />
-            </div>
-            {loadingCategories && fetchingCategories ? (
-              "loading"
-            ) : (
-              <div className="flex-1 my-3">
-                <Field
-                  touched={touched}
-                  errors={errors}
-                  as={Select}
-                  id="category"
-                  name="category"
-                >
-                  <option className="bg-white hover:bg-sky-400" value="">
-                    select
-                  </option>
-                  {categories.length > 0
-                    ? categories.map((option: Category) => (
-                        <option
-                          className="bg-white hover:bg-sky-400"
-                          key={option.id}
-                          value={option.id}
-                        >
-                          {option.name}
-                        </option>
-                      ))
-                    : "loading"}
-                </Field>
-              </div>
-            )}
-            {loadingFrequencies && fetchingFrequencies ? (
-              "loading"
-            ) : (
-              <div className="flex-1 my-3">
-                <Field
-                  touched={touched}
-                  errors={errors}
-                  as={Select}
-                  id="frequency"
-                  name="frequency"
-                >
-                  <option className="bg-white hover:bg-sky-400" value="">
-                    select
-                  </option>
-                  {frequencies.length > 0
-                    ? frequencies.map((option: Category) => (
-                        <option
-                          className="bg-white hover:bg-sky-400"
-                          key={option.id}
-                          value={option.id}
-                        >
-                          {option.name}
-                        </option>
-                      ))
-                    : "loading"}
-                </Field>
-              </div>
-            )}
-          </div>
-        </>
+        <FormFields
+          errors={errors}
+          touched={touched}
+          categories={categories}
+          loadingCategories={loadingCategories}
+          frequencies={frequencies}
+          loadingFrequencies={loadingFrequencies}
+          fetchingCategories={fetchingCategories}
+          fetchingFrequencies={fetchingFrequencies}
+        />
       )}
     </FormikForm>
   );

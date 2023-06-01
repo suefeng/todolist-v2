@@ -1,13 +1,14 @@
-import React from "react";
-import Layout, { Heading } from "application/components/Layout";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import EditTodo from "application/components/features/EditTodo";
-import { URLS } from "infrastructure/router/routes";
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { URLS } from 'infrastructure/router/routes';
+import EditTodo from 'application/components/features/EditTodo';
+import Layout, { Heading } from 'application/components/Layout';
 
 const Edit = () => {
   const router = useRouter();
-  const getTodoId = router.query.todoId || "";
+  const getTodoId = router.query.todoId || '';
   const todoId = getTodoId.toString();
 
   return todoId ? (
@@ -15,10 +16,10 @@ const Edit = () => {
       <section>
         <Heading classNames="flex items-center justify-between">
           Todos:
-          <span className="flex gap-3 items-center">
+          <span className="flex items-center gap-3">
             <Link
               href={URLS.todos}
-              className="text-xl px-3 py-2 bg-emerald-300 rounded-md"
+              className="rounded-md bg-emerald-300 px-3 py-2 text-xl"
             >
               view all &rsaquo;
             </Link>

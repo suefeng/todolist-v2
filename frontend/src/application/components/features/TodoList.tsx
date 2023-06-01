@@ -1,21 +1,22 @@
-import React, { useState } from "react";
-import { useTodos, useTodosUpdate } from "infrastructure/api/todos";
-import Accordion from "application/components/Accordion";
-import { AddTodo } from "./AddTodo";
-import { DeleteTodo } from "./DeleteTodo";
-import { EditTodo } from "./EditTodo";
-import { TodoList } from "domain/entities/TodoList";
-import { TodoDescription } from "./TodoDescription";
-import { Toast } from "application/components/Toast";
-import { SortedTodos } from "domain/server/Todo/todo.aggregator";
-import { AlertColor } from "@mui/material";
+import React, { useState } from 'react';
+import { AlertColor } from '@mui/material';
+
+import { Todo } from 'domain/entities/Todo';
+import { SortedTodos } from 'domain/server/Todo/todo.aggregator';
+import { useTodos, useTodosUpdate } from 'infrastructure/api/todos';
+import Accordion from 'application/components/Accordion';
+import { Toast } from 'application/components/Toast';
+import { AddTodo } from './AddTodo';
+import { DeleteTodo } from './DeleteTodo';
+import { EditTodo } from './EditTodo';
+import { TodoDescription } from './TodoDescription';
 
 type TodoListTypes = {
   filter?: string;
   type?: string;
 };
 
-const TodoList = ({ filter = "", type = "" }: TodoListTypes) => {
+const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
   const {
     data: todos,
     isLoading: loading,
@@ -26,26 +27,26 @@ const TodoList = ({ filter = "", type = "" }: TodoListTypes) => {
 
   const mutation = useTodosUpdate();
 
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastSeverity, setToastSeverity] = useState<AlertColor>("success");
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState<AlertColor>('success');
   const [showToast, setShowToast] = useState(false);
 
-  const handleOnChange = (event: any, todo: TodoList) => {
+  const handleOnChange = (event: any, todo: Todo) => {
     let todoStatus = todo.status;
-    if (todoStatus === "completed") {
-      todo.status = "not-started";
-      event.target.value = "";
-      todoStatus = "not-started";
+    if (todoStatus === 'completed') {
+      todo.status = 'not-started';
+      event.target.value = '';
+      todoStatus = 'not-started';
       setToastMessage(`${todo.description} is back`);
       setShowToast(true);
-      setToastSeverity("success");
+      setToastSeverity('success');
     } else {
-      todo.status = "completed";
-      event.target.value = "completed";
-      todoStatus = "completed";
+      todo.status = 'completed';
+      event.target.value = 'completed';
+      todoStatus = 'completed';
       setToastMessage(`${todo.description} is done!`);
       setShowToast(true);
-      setToastSeverity("success");
+      setToastSeverity('success');
     }
     mutation.mutate({
       id: todo.id,
@@ -53,13 +54,13 @@ const TodoList = ({ filter = "", type = "" }: TodoListTypes) => {
     });
   };
 
-  const handleOnTodoSave = (action: "added" | "edited" | "removed") => {
+  const handleOnTodoSave = (action: 'added' | 'edited' | 'removed') => {
     refetch().then((response) => {
       const latest = response?.data.pop();
       setToastMessage(`${latest.description} is now ${action}`);
       setShowToast(true);
       setToastSeverity(
-        ["added", "edited"].includes(action) ? "success" : "warning"
+        ['added', 'edited'].includes(action) ? 'success' : 'warning',
       );
     });
   };
@@ -72,28 +73,31 @@ const TodoList = ({ filter = "", type = "" }: TodoListTypes) => {
         setOpen={setShowToast}
         severity={toastSeverity}
       />
-      <Accordion title="Add a task" className="mb-5">
-        <AddTodo onTodoSave={() => handleOnTodoSave("added")} />
+      <Accordion
+        title="Add a task"
+        className="mb-5"
+      >
+        <AddTodo onTodoSave={() => handleOnTodoSave('added')} />
       </Accordion>
       <ul>
         {loading || fetching || refetching ? (
-          "loading"
+          'loading'
         ) : todos ? (
-          SortedTodos(todos).map((todo: TodoList) => {
-            const bgColor = todo.status === "completed" ? "" : "bg-sky-100";
+          SortedTodos(todos).map((todo: Todo) => {
+            const bgColor = todo.status === 'completed' ? '' : 'bg-sky-100';
 
             return (
               <li
                 key={`todo-${todo.id}`}
-                className={`flex gap-3 items-center px-2 ${bgColor} my-1 w-full rounded-md hover:bg-sky-200 cursor-pointer`}
+                className={`flex items-center gap-3 px-2 ${bgColor} my-1 w-full cursor-pointer rounded-md hover:bg-sky-200`}
               >
-                <span className="rounded-full flex justify-center w-7 h-7 hover:bg-white cursor-pointer transition duration-300">
+                <span className="flex h-7 w-7 cursor-pointer justify-center rounded-full transition duration-300 hover:bg-white">
                   <input
                     id={todo.description}
                     type="checkbox"
                     className="cursor-pointer"
                     onChange={(event) => handleOnChange(event, todo)}
-                    checked={todo.status === "completed"}
+                    checked={todo.status === 'completed'}
                   />
                 </span>
                 <TodoDescription
@@ -105,16 +109,16 @@ const TodoList = ({ filter = "", type = "" }: TodoListTypes) => {
                 />
                 <span
                   className={
-                    todo.status === "completed" ? "hidden" : "flex gap-2 mr-1"
+                    todo.status === 'completed' ? 'hidden' : 'mr-1 flex gap-2'
                   }
                 >
                   <EditTodo
                     todoId={todo.id}
-                    onTodoSave={() => handleOnTodoSave("edited")}
+                    onTodoSave={() => handleOnTodoSave('edited')}
                   />
                   <DeleteTodo
                     todoId={todo.id}
-                    onTodoSave={() => handleOnTodoSave("removed")}
+                    onTodoSave={() => handleOnTodoSave('removed')}
                   />
                 </span>
               </li>

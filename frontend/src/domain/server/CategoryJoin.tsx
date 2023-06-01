@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const CategoryJoin = z.object({
   category_id: z.number(),

@@ -1,15 +1,16 @@
-import Head from "next/head";
-import Link from "next/link";
-import Navigation from "./Navigation";
-import { SITE_TITLE } from "domain/constants";
+import Head from 'next/head';
+import Link from 'next/link';
+
+import { SITE_TITLE } from 'domain/constants';
+import Navigation from './Navigation';
 
 type HeadingTypes = {
   children: React.ReactNode;
   classNames?: string;
 };
 
-export const Heading = ({ children = "", classNames = "" }: HeadingTypes) => (
-  <h1 className={`text-6xl mb-3 ${classNames}`}>{children}</h1>
+export const Heading = ({ children = '', classNames = '' }: HeadingTypes) => (
+  <h1 className={`mb-3 text-6xl ${classNames}`}>{children}</h1>
 );
 
 type LayoutTypes = {
@@ -21,20 +22,26 @@ type LayoutTypes = {
 export default function Layout({
   children,
   home = false,
-  pageTitle = "",
+  pageTitle = '',
 }: LayoutTypes) {
   const titleConstructor =
-    pageTitle !== "" ? `${pageTitle} - ${SITE_TITLE}` : SITE_TITLE;
+    pageTitle !== '' ? `${pageTitle} - ${SITE_TITLE}` : SITE_TITLE;
 
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="Notes and Todos" />
+        <link
+          rel="icon"
+          href="/favicon.ico"
+        />
+        <meta
+          name="description"
+          content="Notes and Todos"
+        />
         <title>{titleConstructor}</title>
       </Head>
       <Navigation />
-      <header className="text-center container max-w-4xl mx-auto mt-4">
+      <header className="container mx-auto mt-4 max-w-4xl text-center">
         {home ? (
           <>
             <Heading>{SITE_TITLE}</Heading>
@@ -42,16 +49,19 @@ export default function Layout({
         ) : (
           <div className="flex items-center">
             <h2 className="">
-              <Link href="/" className="">
+              <Link
+                href="/"
+                className=""
+              >
                 {SITE_TITLE}
               </Link>
             </h2>
           </div>
         )}
       </header>
-      <main className="container max-w-4xl mx-auto mt-4">{children}</main>
+      <main className="container mx-auto mt-4 max-w-4xl">{children}</main>
       {!home && (
-        <div className="container max-w-4xl mx-auto mt-4">
+        <div className="container mx-auto mt-4 max-w-4xl">
           <Link href="/">← Back to home</Link>
         </div>
       )}

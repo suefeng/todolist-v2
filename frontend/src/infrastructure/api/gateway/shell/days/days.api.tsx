@@ -1,6 +1,6 @@
-import { Day } from "domain/entities/Day";
-import { Fetcher, ResponseTL } from "infrastructure/api/common";
-import { handleError } from "infrastructure/api/common/handleError";
+import { Day } from 'domain/entities/Day';
+import { Fetcher, ResponseTL } from 'infrastructure/api/common';
+import { handleError } from 'infrastructure/api/common/handleError';
 
 /** @type {import('../../../../../../app/api/shell/days/route').HandlerResponse}  */
 
@@ -14,7 +14,7 @@ export const fetchDays = (fetcher: Fetcher) => async (): DaysResponse => {
   try {
     return await fetcher(url);
   } catch (error) {
-    return handleError({ error, origin: "fetchDays" });
+    return handleError({ error, origin: 'fetchDays' });
   }
 };
 
@@ -32,6 +32,6 @@ export const fetchDayResponse =
     try {
       return await fetcher(url);
     } catch (error) {
-      return handleError({ error, origin: "fetchDayResponse" });
+      return handleError({ error, origin: 'fetchDayResponse' });
     }
   };

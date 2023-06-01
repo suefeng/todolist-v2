@@ -6,5 +6,5 @@ export const setFieldErrors = ({
   formikHelpers: object;
 }) =>
   Object.keys(errors).forEach((key) =>
-    formikHelpers.setFieldError(key, errors[key][0])
+    formikHelpers.setFieldError(key, errors[key][0]),
   );

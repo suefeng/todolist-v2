@@ -1,11 +1,11 @@
 export interface Day {
-  id: number,
+  id: number;
   name:
-    "Monday" |
-    "Tuesday" |
-    "Wednesday" |
-    "Thursday" |
-    "Friday" |
-    "Saturday" |
-    "Sunday"
-};
+    | 'Monday'
+    | 'Tuesday'
+    | 'Wednesday'
+    | 'Thursday'
+    | 'Friday'
+    | 'Saturday'
+    | 'Sunday';
+}

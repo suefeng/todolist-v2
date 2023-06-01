@@ -1,5 +1,5 @@
-import Layout, { Heading } from "application/components/Layout";
-import TodoList from "application/components/features/TodoList";
+import TodoList from 'application/components/features/TodoList';
+import Layout, { Heading } from 'application/components/Layout';
 
 const Todos = () => (
   <Layout pageTitle="Todos">

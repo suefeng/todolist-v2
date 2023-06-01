@@ -1,6 +1,6 @@
-import { Category } from "domain/entities/Category";
-import { Fetcher, ResponseTL } from "infrastructure/api/common";
-import { handleError } from "infrastructure/api/common/handleError";
+import { Category } from 'domain/entities/Category';
+import { Fetcher, ResponseTL } from 'infrastructure/api/common';
+import { handleError } from 'infrastructure/api/common/handleError';
 
 /** @type {import('../../../../../../app/api/shell/categories/route').HandlerResponse}  */
 
@@ -15,7 +15,7 @@ export const fetchCategories =
     try {
       return await fetcher(url);
     } catch (error) {
-      return handleError({ error, origin: "fetchCategories" });
+      return handleError({ error, origin: 'fetchCategories' });
     }
   };
 
@@ -33,7 +33,7 @@ export const fetchCategoryResponse =
     try {
       return await fetcher(url);
     } catch (error) {
-      return handleError({ error, origin: "fetchCategoryResponse" });
+      return handleError({ error, origin: 'fetchCategoryResponse' });
     }
   };
 
@@ -45,6 +45,6 @@ export const createCategory = (fetcher: Fetcher) => async (name: string) => {
   try {
     return await fetcher(url, { body: {} });
   } catch (error) {
-    return handleError({ error, origin: "createCategory" });
+    return handleError({ error, origin: 'createCategory' });
   }
 };

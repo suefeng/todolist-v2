@@ -1,5 +1,5 @@
-import React, { ComponentProps } from "react";
-import MuiModal from "@mui/material/Modal";
+import React, { ComponentProps } from 'react';
+import MuiModal from '@mui/material/Modal';
 
 export const Modal = ({
   children,
@@ -7,7 +7,10 @@ export const Modal = ({
   onClose,
 }: ComponentProps<typeof MuiModal>) => {
   return (
-    <MuiModal open={open} onClose={onClose}>
+    <MuiModal
+      open={open}
+      onClose={onClose}
+    >
       {children}
     </MuiModal>
   );

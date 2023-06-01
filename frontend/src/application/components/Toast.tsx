@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Alert, Snackbar } from "@mui/material";
+import * as React from 'react';
+import { Alert, Snackbar } from '@mui/material';
 
 export const Toast = ({
   message,
@@ -12,13 +12,13 @@ export const Toast = ({
   action?: React.ReactNode;
   open: boolean;
   setOpen: Function;
-  severity?: React.ComponentProps<typeof Alert>["severity"];
+  severity?: React.ComponentProps<typeof Alert>['severity'];
 }) => {
   const handleClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -27,14 +27,18 @@ export const Toast = ({
 
   return (
     <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       open={open}
       autoHideDuration={7000}
       onClose={handleClose}
       message={message}
       action={action}
     >
-      <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+      <Alert
+        onClose={handleClose}
+        severity={severity}
+        sx={{ width: '100%' }}
+      >
         {message}
       </Alert>
     </Snackbar>

@@ -1,9 +1,7 @@
 import { ZodType } from 'zod';
 
 import { PassedOptions } from 'infrastructure/api/common/fetcher';
-import {
-  hasErrorInResponse,
-} from 'infrastructure/api/common/hasResponseError';
+import { hasErrorInResponse } from 'infrastructure/api/common/hasResponseError';
 import {
   ResponseSuccess,
   ResponseTL,

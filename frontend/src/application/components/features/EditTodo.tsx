@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Button } from "application/components/Button";
-import { EditOutlined } from "@mui/icons-material";
-import { EditTodoForm } from "./EditTodoForm";
-import { Modal } from "application/components/Modal";
+import React, { useState } from 'react';
+import { EditOutlined } from '@mui/icons-material';
+
+import { Button } from 'application/components/Button';
+import { Modal } from 'application/components/Modal';
+import { EditTodoForm } from './EditTodoForm';
 
 export const EditTodo = ({
   todoId,
@@ -29,9 +30,15 @@ export const EditTodo = ({
       >
         Edit
       </Button>
-      <Modal open={open} onClose={handleClose}>
-        <div className="max-w-md bg-white p-5 m-auto mt-5">
-          <EditTodoForm todoId={todoId} onTodoSave={onTodoSave} />
+      <Modal
+        open={open}
+        onClose={handleClose}
+      >
+        <div className="m-auto mt-5 max-w-md bg-white p-5">
+          <EditTodoForm
+            todoId={todoId}
+            onTodoSave={onTodoSave}
+          />
         </div>
       </Modal>
     </>

@@ -1,4 +1,4 @@
-import Layout, { Heading } from "application/components/Layout";
+import Layout, { Heading } from 'application/components/Layout';
 
 export default function FirstPost() {
   return (
