@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 
 import { useCategories } from 'infrastructure/api/categories';
 import {
@@ -42,7 +41,6 @@ export const EditTodoForm = ({
     isLoading: todoShowLoading,
     isFetching: todoShowFetching,
   } = useTodoShow(todoId);
-  const router = useRouter();
 
   type ValueTypes = {
     category: string;
@@ -62,7 +60,7 @@ export const EditTodoForm = ({
         todo_id: todoId,
         category_id: Number(values.category),
       });
-    } else {
+    } else if (values.category) {
       createCategory({
         todo_id: todoId,
         category_id: Number(values.category),
@@ -73,7 +71,7 @@ export const EditTodoForm = ({
         todo_id: todoId,
         frequency_id: Number(values.frequency),
       });
-    } else {
+    } else if (values.frequency) {
       createFrequency({
         todo_id: todoId,
         frequency_id: Number(values.frequency),

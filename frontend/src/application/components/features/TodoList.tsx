@@ -54,10 +54,19 @@ const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
     });
   };
 
-  const handleOnTodoSave = (action: 'added' | 'edited' | 'removed') => {
+  const handleOnTodoSave = (
+    action: 'added' | 'edited' | 'removed',
+    todoId?: number,
+  ) => {
+    let todo = todos.find((todo: Todo) => todo.id === todoId);
     refetch().then((response) => {
-      const latest = response?.data.pop();
-      setToastMessage(`${latest.description} is now ${action}`);
+      if (action === 'added') {
+        todo = response?.data.pop();
+      }
+      if (action === 'edited') {
+        todo = response?.data.find((todo: Todo) => todo.id === todoId);
+      }
+      setToastMessage(`${todo.description} is now ${action}`);
       setShowToast(true);
       setToastSeverity(
         ['added', 'edited'].includes(action) ? 'success' : 'warning',
@@ -114,11 +123,11 @@ const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
                 >
                   <EditTodo
                     todoId={todo.id}
-                    onTodoSave={() => handleOnTodoSave('edited')}
+                    onTodoSave={() => handleOnTodoSave('edited', todo.id)}
                   />
                   <DeleteTodo
                     todoId={todo.id}
-                    onTodoSave={() => handleOnTodoSave('removed')}
+                    onTodoSave={() => handleOnTodoSave('removed', todo.id)}
                   />
                 </span>
               </li>
