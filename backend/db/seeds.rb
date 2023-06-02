@@ -13,32 +13,36 @@ todos = [
   {
     description: 'Wash the dishes',
     expiration: '2023-03-01',
-    frequency: 1,
-    category: 1
+    frequency: [1],
+    category: [1],
+    day: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     description: 'Sweep the floor the dishes',
     expiration: '2023-03-01',
-    frequency: 2,
-    category: 1
+    frequency: [2],
+    category: [1],
+    day: []
   },
   {
     description: 'Shop for groceries',
     expiration: nil,
-    frequency: 2,
-    category: 3
+    frequency: [2],
+    category: [3]
   },
   {
     description: 'Visit Fiona',
     expiration: '2023-03-04',
     frequency: [],
-    category: 5
+    category: [5],
+    day: []
   },
   {
     description: 'Read a book',
     expiration: nil,
-    frequency: 1,
-    category: 2
+    frequency: [1],
+    category: [2],
+    day: [1, 3, 5]
   }
 ]
 
@@ -59,6 +63,19 @@ todos.each do |todo|
     description: todo[:description],
     expiration: todo[:expiration]
   )
-  CategoryJoin.find_or_create_by(todo_id: todo_row.id, category_id: todo[:category])
-  FrequencyJoin.find_or_create_by(todo_id: todo_row.id, frequency_id: todo[:frequency])
+  if todo[:category].present?
+    todo[:category].each do |category|
+      CategoryJoin.find_or_create_by(todo_id: todo_row.id, category_id: category)
+    end
+  end
+  if todo[:frequency].present?
+    todo[:frequency].each do |frequency|
+      FrequencyJoin.find_or_create_by(todo_id: todo_row.id, frequency_id: frequency)
+    end
+  end
+  next unless todo[:day].present?
+
+  todo[:day].each do |day|
+    DayJoin.find_or_create_by(todo_id: todo_row.id, day_id: day)
+  end
 end

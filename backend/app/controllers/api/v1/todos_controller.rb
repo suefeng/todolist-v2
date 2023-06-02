@@ -60,7 +60,8 @@ class Api::V1::TodosController < ApplicationController
       only: %i[id description expiration status],
       include: {
         categories: { only: %i[id name] },
-        frequencies: { only: %i[id name] }
+        frequencies: { only: %i[id name] },
+        days: { only: %i[id name] }
       }
     }
   end
@@ -71,6 +72,10 @@ class Api::V1::TodosController < ApplicationController
 
   def render_frequencies
     @todos.includes(:frequencies).where(frequencies: { name: filter })
+  end
+
+  def render_days
+    @todos.includes(:days).where(days: { name: filter })
   end
 
   def render_expirations
@@ -86,6 +91,7 @@ class Api::V1::TodosController < ApplicationController
     else
       return render_categories if type == 'category'
       return render_frequencies if type == 'frequency'
+      return render_days if type == 'day'
       return render_expiration if type == 'expiration'
     end
   end
