@@ -4,7 +4,7 @@ const PATCH = 'PATCH';
 const POST = 'POST';
 const PUT = 'PUT';
 
-const PREFIX = process.env.GATEWAY_ENDPOINT || '';
+const PREFIX = process.env.API_GATEWAY || '';
 
 // export const getCsrfToken = () => {
 //   const csrfToken = document.querySelector('meta[name="csrf-token"]');

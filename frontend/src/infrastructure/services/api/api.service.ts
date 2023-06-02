@@ -54,7 +54,7 @@ const injectGatewayFetcher = (
   return newAPI;
 };
 
-const getBaseUrl = () => process.env.MICRO_GATEWAY;
+const getBaseUrl = () => process.env.API_GATEWAY;
 
 type DeepFunctionReturnTypes<T> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

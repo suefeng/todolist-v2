@@ -24,6 +24,12 @@ validateTodo.mock = generateTLMock(Todo);
 
 export const TodoIndex = z.array(Todo);
 
+export const validateTodoIndex = <T>(value: ResponseSuccess<T>) => {
+  return TodoIndex.safeParse(value);
+};
+
+validateTodoIndex.mock = generateTLMock(TodoIndex);
+
 export const CreateTodo = z.object({
   categories: z.array(Category).optional(),
   description: z.string().optional(),

@@ -1,9 +1,6 @@
 import { replaceParams } from 'infrastructure/services/api/replaceParams';
 
-type BaseURL =
-  | ''
-  | typeof process.env.API_GATEWAY
-  | typeof process.env.MICRO_GATEWAY;
+type BaseURL = '' | typeof process.env.API_GATEWAY;
 
 export type FetcherDeps = {
   getBaseUrl: () => BaseURL;
@@ -67,8 +64,5 @@ export const createFetcher =
 export type Fetcher = ReturnType<typeof createFetcher>;
 
 export const fetcher = createFetcher({
-  getBaseUrl: () =>
-    typeof window !== 'undefined'
-      ? process.env.MICRO_GATEWAY
-      : process.env.API_GATEWAY,
+  getBaseUrl: () => process.env.API_GATEWAY,
 });

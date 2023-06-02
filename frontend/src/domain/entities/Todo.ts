@@ -8,7 +8,7 @@ export interface Todo {
   expiration?: string;
   id: number;
   frequencies?: Frequency[];
-  day?: Day;
+  days?: Day[];
   status?: string;
 }
 
@@ -17,6 +17,6 @@ export interface CreateTodo {
   description?: string;
   expiration?: string;
   frequencies?: Frequency[];
-  day?: Day;
+  days?: Day[];
   status?: string;
 }
