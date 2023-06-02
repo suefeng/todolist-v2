@@ -4,9 +4,7 @@ import { handleError } from 'infrastructure/api/common/handleError';
 
 /** @type {import('../../../../../../app/api/shell/days/route').HandlerResponse}  */
 
-export type DaysResponse = ResponseTL<{
-  todos: Day[];
-}>;
+export type DaysResponse = ResponseTL<Day[]>;
 
 export const fetchDays = (fetcher: Fetcher) => async (): DaysResponse => {
   const url = `/api/shell/days`;
@@ -20,9 +18,7 @@ export const fetchDays = (fetcher: Fetcher) => async (): DaysResponse => {
 
 /** @type {import('../../../../../../app/api/shell/days/[dayId]/route').HandlerResponse}  */
 
-export type DayResponse = ResponseTL<{
-  todo: Day;
-}>;
+export type DayResponse = ResponseTL<Day>;
 
 export const fetchDayResponse =
   (fetcher: Fetcher) =>

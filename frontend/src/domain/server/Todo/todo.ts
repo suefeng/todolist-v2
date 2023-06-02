@@ -8,8 +8,8 @@ import { Frequency } from '../Frequency';
 
 export const Todo = z.object({
   categories: z.array(Category).optional(),
-  description: z.string().optional(),
-  expiration: z.string().optional(),
+  description: z.string(),
+  expiration: z.string().optional().nullable(),
   id: z.number(),
   frequencies: z.array(Frequency).optional(),
   days: z.array(Day).optional(),
@@ -32,8 +32,8 @@ validateTodoIndex.mock = generateTLMock(TodoIndex);
 
 export const CreateTodo = z.object({
   categories: z.array(Category).optional(),
-  description: z.string().optional(),
-  expiration: z.string().optional(),
+  description: z.string(),
+  expiration: z.string().optional().nullable(),
   frequencies: z.array(Frequency).optional(),
   days: z.array(Day).optional(),
   status: z.string().optional(),
