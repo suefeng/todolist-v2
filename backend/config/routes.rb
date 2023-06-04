@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1, defaults: { format: :json } do
+      resources :categories
+      resources :category_joins
       resources :days
       resources :day_joins
       resources :frequencies
       resources :frequency_joins
-      resources :categories
-      resources :category_joins
+      resources :notes
       resources :todos
     end
   end

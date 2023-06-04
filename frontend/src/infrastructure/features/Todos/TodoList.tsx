@@ -9,14 +9,14 @@ import { Toast } from 'application/components/Toast';
 import { AddTodo } from './AddTodo';
 import { DeleteTodo } from './DeleteTodo';
 import { EditTodo } from './EditTodo';
-import { TodoDescription } from './TodoDescription';
+import { TodoDetails } from './TodoDetails';
 
 type TodoListTypes = {
   filter?: string;
   type?: string;
 };
 
-const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
+export const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
   const {
     data: todos,
     isLoading: loading,
@@ -92,7 +92,7 @@ const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
         {loading || fetching || refetching ? (
           'loading'
         ) : todos ? (
-          SortedTodos(todos).map((todo: Todo) => {
+          todos.map((todo) => {
             const bgColor = todo.status === 'completed' ? '' : 'bg-sky-100';
 
             return (
@@ -109,7 +109,7 @@ const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
                     checked={todo.status === 'completed'}
                   />
                 </span>
-                <TodoDescription
+                <TodoDetails
                   status={todo.status}
                   description={todo.description}
                   expiration={todo.expiration}
@@ -140,5 +140,3 @@ const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
     </>
   );
 };
-
-export default TodoList;

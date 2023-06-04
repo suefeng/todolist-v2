@@ -5,6 +5,7 @@ import { generateTLMock } from 'infrastructure/services/http/httpMockGenerator';
 import { Category } from '../Category';
 import { Day } from '../Day';
 import { Frequency } from '../Frequency';
+import { Note } from '../Note';
 
 export const Todo = z.object({
   categories: z.array(Category).optional(),
@@ -14,6 +15,7 @@ export const Todo = z.object({
   frequencies: z.array(Frequency).optional(),
   days: z.array(Day).optional(),
   status: z.string().optional(),
+  note: Note.optional(),
 });
 
 export const validateTodo = <T>(value: ResponseSuccess<T>) => {
@@ -37,6 +39,7 @@ export const CreateTodo = z.object({
   frequencies: z.array(Frequency).optional(),
   days: z.array(Day).optional(),
   status: z.string().optional(),
+  note: Note.optional(),
 });
 
 export const validateCreateTodo = <T>(value: ResponseSuccess<T>) => {

@@ -46,6 +46,20 @@ todos = [
   }
 ]
 
+notes = [{
+  id: 1,
+  todo_id: 1,
+  note: "Remember to wipe the counters when you're done"
+}, {
+  id: 2,
+  todo_id: 4,
+  note: 'Bring your pens and notebooks'
+}, {
+  id: 3,
+  todo_id: 5,
+  note: 'Remember to return the book after two weeks'
+}]
+
 categories.each do |category|
   Category.find_or_create_by(name: category)
 end
@@ -78,4 +92,6 @@ todos.each do |todo|
   todo[:day].each do |day|
     DayJoin.find_or_create_by(todo_id: todo_row.id, day_id: day)
   end
+  note = notes.find { |note| note[:todo_id] == todo_row.id }
+  Note.find_or_create_by(todo_id: todo_row.id, note: note[:note])
 end

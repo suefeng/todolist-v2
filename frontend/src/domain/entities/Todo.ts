@@ -1,6 +1,7 @@
 import { Category } from './Category';
 import { Day } from './Day';
 import { Frequency } from './Frequency';
+import { Note } from './Note';
 
 export interface Todo {
   categories?: Category[];
@@ -10,6 +11,7 @@ export interface Todo {
   frequencies?: Frequency[];
   days?: Day[];
   status?: string;
+  note?: Note;
 }
 
 export interface CreateTodo {
@@ -19,4 +21,5 @@ export interface CreateTodo {
   frequencies?: Frequency[];
   days?: Day[];
   status?: string;
+  note?: Note;
 }

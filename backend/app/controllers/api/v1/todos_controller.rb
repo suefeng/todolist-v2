@@ -61,7 +61,8 @@ class Api::V1::TodosController < ApplicationController
       include: {
         categories: { only: %i[id name] },
         frequencies: { only: %i[id name] },
-        days: { only: %i[id name] }
+        days: { only: %i[id name] },
+        note: { only: %i[note] }
       }
     }
   end

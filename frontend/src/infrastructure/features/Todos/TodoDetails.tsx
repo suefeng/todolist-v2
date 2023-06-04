@@ -5,7 +5,7 @@ import { CreateTodo } from 'domain/entities/Todo';
 import { formatDate } from 'domain/services/date.services';
 import { URLS } from 'infrastructure/router/routes';
 
-export const TodoDescription = ({
+export const TodoDetails = ({
   description,
   expiration,
   categories,
