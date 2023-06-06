@@ -6,6 +6,6 @@ export const useFrequencies = () => {
   return useQuery({
     queryKey: ['frequencies'],
     queryFn: () =>
-      http.get(`/api/v1/frequencies`).then((response) => response.json()),
+      http.get(`/api/shell/frequencies`).then((response) => response.json()),
   });
 };

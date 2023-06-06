@@ -1,13 +1,22 @@
-import TodoList from 'application/components/features/TodoList';
-import Layout, { Heading } from 'application/components/Layout';
+import { GetServerSidePropsContext } from 'next';
 
-const Todos = () => (
-  <Layout pageTitle="Todos">
-    <section>
-      <Heading classNames="flex items-center justify-between">Todos:</Heading>
-      <TodoList />
-    </section>
-  </Layout>
-);
+import { apiFactory } from 'infrastructure/api';
+import { initializeTodos } from 'infrastructure/features/Todos/store';
+import { TodoListComponent } from 'infrastructure/features/Todos/TodoListComponent';
+import { storeService } from 'infrastructure/services';
+import { dehydrate } from 'infrastructure/store/useTLStore';
 
-export default Todos;
+export default TodoListComponent;
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const store = storeService.getStore();
+  const API = apiFactory.initialize(ctx);
+
+  await initializeTodos({ store, API })();
+
+  const props = {
+    store: dehydrate(store),
+  };
+
+  return { props };
+};

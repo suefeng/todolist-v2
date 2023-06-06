@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@anatine/zod-mock": "^3.12.0",
+    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.10.6",
     "@faker-js/faker": "^8.0.2",
     "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
@@ -29,22 +31,25 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-sonarjs": "^0.19.0",
     "formik": "^2.2.9",
+    "lodash": "^4.17.21",
     "next": "latest",
+    "next-themes": "^0.2.1",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.3",
     "storybook": "^7.0.17",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.195",
     "@types/node": "20.2.3",
     "@types/react": "18.0.28",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
     "typescript": "4.9.5"
-  },
-  "proxy": "http://localhost:3000"
+  }
 }

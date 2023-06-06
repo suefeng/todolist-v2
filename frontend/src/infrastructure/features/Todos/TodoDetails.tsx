@@ -10,6 +10,8 @@ export const TodoDetails = ({
   expiration,
   categories,
   frequencies,
+  days,
+  note,
   status,
 }: CreateTodo) => {
   const TodoLink = ({
@@ -31,6 +33,8 @@ export const TodoDetails = ({
           }
         case 'frequency':
           return 'bg-green-200';
+        case 'day':
+          return 'bg-white';
       }
     };
     const dateOptions: Intl.DateTimeFormatOptions = {
@@ -90,6 +94,16 @@ export const TodoDetails = ({
                 key={frequency.name}
                 filterOption={frequency.name}
                 typeOption="frequency"
+              />
+            ))}
+        </span>
+        <span className="mt-2 flex gap-2">
+          {days &&
+            days.map((day: { name: string }) => (
+              <TodoLink
+                key={day.name}
+                filterOption={day.name}
+                typeOption="day"
               />
             ))}
         </span>

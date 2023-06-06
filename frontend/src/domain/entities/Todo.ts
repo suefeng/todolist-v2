@@ -4,22 +4,22 @@ import { Frequency } from './Frequency';
 import { Note } from './Note';
 
 export interface Todo {
-  categories?: Category[];
-  description?: string;
-  expiration?: string;
+  categories: Category[] | null;
+  description: string;
+  expiration: string | null;
   id: number;
-  frequencies?: Frequency[];
-  days?: Day[];
-  status?: string;
-  note?: Note;
+  frequencies: Frequency[] | null;
+  days: Day[] | null;
+  status: string | null;
+  note: Note | null;
 }
 
 export interface CreateTodo {
-  categories?: Category[];
-  description?: string;
-  expiration?: string;
-  frequencies?: Frequency[];
-  days?: Day[];
-  status?: string;
-  note?: Note;
+  categories: Category[] | null;
+  description: string;
+  expiration: string | null;
+  frequencies: Frequency[] | null;
+  days: Day[] | null;
+  status: string | null;
+  note: Note | null;
 }

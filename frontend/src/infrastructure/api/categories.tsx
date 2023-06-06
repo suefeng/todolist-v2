@@ -6,6 +6,6 @@ export const useCategories = () => {
   return useQuery({
     queryKey: ['categories'],
     queryFn: () =>
-      http.get(`/api/v1/categories`).then((response) => response.json()),
+      http.get(`/api/shell/categories`).then((response) => response.json()),
   });
 };

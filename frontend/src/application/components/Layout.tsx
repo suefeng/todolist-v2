@@ -30,10 +30,6 @@ export default function Layout({
   return (
     <>
       <Head>
-        <link
-          rel="icon"
-          href="/favicon.ico"
-        />
         <meta
           name="description"
           content="Notes and Todos"

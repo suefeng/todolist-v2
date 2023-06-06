@@ -6,10 +6,12 @@ const env = process.env.ENV_NAME || process.env.ENV || 'global';
 
 const runtimeConfig = require(`./runtime.config.dev.js`);
 
-let { PROXY_URL, API_GATEWAY } = runtimeConfig.publicRuntimeConfig;
+let { PROXY_URL, MICRO_GATEWAY, API_GATEWAY } =
+  runtimeConfig.publicRuntimeConfig;
 
 console.log('PROXY: ', PROXY_URL);
 console.log('API_GATEWAY: ', API_GATEWAY);
+console.log('MICRO_GATEWAY: ', MICRO_GATEWAY);
 console.log('ENV: ', env);
 console.log('NODE_ENV: ', process.env.NODE_ENV);
 
@@ -28,6 +30,12 @@ const nextConfig = {
     },
     '@mui/base': {
       transform: '@mui/base/{{member}}',
+    },
+    lodash: {
+      transform: 'lodash/{{member}}',
+    },
+    'lodash/fp': {
+      transform: 'lodash/fp/{{member}}',
     },
   },
   reactStrictMode: false,
@@ -51,14 +59,6 @@ const nextConfig = {
           destination: `${PROXY_URL}/404`,
         },
       ],
-      afterFiles: [
-        // These rewrites are checked after pages/public files
-        // are checked but before dynamic routes
-        {
-          source: '/favicon.ico',
-          destination: `/favicon/favicon.ico`,
-        },
-      ],
       // These rewrites are checked after both pages/public files
       // and dynamic routes are checked
       fallback: [
@@ -80,6 +80,7 @@ const nextConfig = {
   },
   env: {
     PROXY_URL,
+    MICRO_GATEWAY,
     API_GATEWAY,
   },
 };

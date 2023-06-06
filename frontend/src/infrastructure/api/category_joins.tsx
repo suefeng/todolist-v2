@@ -7,7 +7,7 @@ import http from 'infrastructure/utilities/http';
 export const useCategoryJoinCreation = () =>
   useMutation({
     mutationFn: async (params: z.infer<typeof CategoryJoin>) => {
-      const response = await http.post(`/api/v1/category_joins`, {
+      const response = await http.post(`/api/shell/category_joins`, {
         body: JSON.stringify({ ...params }),
       });
       const result = await response.json();
@@ -22,7 +22,7 @@ export const useCategoryJoinUpdate = () =>
   useMutation({
     mutationFn: async (params: z.infer<typeof CategoryJoin>) => {
       const response = await http.put(
-        `/api/v1/category_joins/${params.todo_id}`,
+        `/api/shell/category_joins/${params.todo_id}`,
         {
           body: JSON.stringify({ ...params }),
         },

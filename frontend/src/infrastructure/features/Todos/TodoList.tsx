@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { AlertColor } from '@mui/material';
 
 import { Todo } from 'domain/entities/Todo';
-import { SortedTodos } from 'domain/server/Todo/todo.aggregator';
-import { useTodos, useTodosUpdate } from 'infrastructure/api/todos';
+import { useTodosUpdate } from 'infrastructure/api/todos';
 import Accordion from 'application/components/Accordion';
 import { Toast } from 'application/components/Toast';
 import { AddTodo } from './AddTodo';
@@ -12,19 +11,10 @@ import { EditTodo } from './EditTodo';
 import { TodoDetails } from './TodoDetails';
 
 type TodoListTypes = {
-  filter?: string;
-  type?: string;
+  todoList: Todo[];
 };
 
-export const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
-  const {
-    data: todos,
-    isLoading: loading,
-    isFetching: fetching,
-    isRefetching: refetching,
-    refetch,
-  } = useTodos({ filter: filter, type: type });
-
+export const TodoList = ({ todoList }: TodoListTypes) => {
   const mutation = useTodosUpdate();
 
   const [toastMessage, setToastMessage] = useState('');
@@ -51,6 +41,7 @@ export const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
     mutation.mutate({
       id: todo.id,
       status: todoStatus,
+      description: todo.description,
     });
   };
 
@@ -58,20 +49,20 @@ export const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
     action: 'added' | 'edited' | 'removed',
     todoId?: number,
   ) => {
-    let todo = todos.find((todo: Todo) => todo.id === todoId);
-    refetch().then((response) => {
-      if (action === 'added') {
-        todo = response?.data.pop();
-      }
-      if (action === 'edited') {
-        todo = response?.data.find((todo: Todo) => todo.id === todoId);
-      }
-      setToastMessage(`${todo.description} is now ${action}`);
-      setShowToast(true);
-      setToastSeverity(
-        ['added', 'edited'].includes(action) ? 'success' : 'warning',
-      );
-    });
+    // let todo = todos.find((todo: Todo) => todo.id === todoId);
+    // refetch().then((response) => {
+    //   if (action === 'added') {
+    //     todo = response?.data.pop();
+    //   }
+    //   if (action === 'edited') {
+    //     todo = response?.data.find((todo: Todo) => todo.id === todoId);
+    //   }
+    //   setToastMessage(`${todo.description} is now ${action}`);
+    //   setShowToast(true);
+    //   setToastSeverity(
+    //     ['added', 'edited'].includes(action) ? 'success' : 'warning',
+    //   );
+    // });
   };
 
   return (
@@ -89,10 +80,8 @@ export const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
         <AddTodo onTodoSave={() => handleOnTodoSave('added')} />
       </Accordion>
       <ul>
-        {loading || fetching || refetching ? (
-          'loading'
-        ) : todos ? (
-          todos.map((todo) => {
+        {todoList ? (
+          todoList.map((todo: Todo) => {
             const bgColor = todo.status === 'completed' ? '' : 'bg-sky-100';
 
             return (
@@ -115,6 +104,8 @@ export const TodoList = ({ filter = '', type = '' }: TodoListTypes) => {
                   expiration={todo.expiration}
                   categories={todo.categories}
                   frequencies={todo.frequencies}
+                  days={todo.days}
+                  note={todo.note}
                 />
                 <span
                   className={

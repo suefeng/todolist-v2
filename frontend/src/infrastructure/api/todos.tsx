@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'react-query';
 import { z } from 'zod';
 
-import { CreateTodo, DestroyTodoList, TodoList } from 'domain/server/Todo/todo';
+import { CreateTodo, Todo } from 'domain/server/Todo/todo';
 import http from 'infrastructure/utilities/http';
 
 export const useTodos = ({
@@ -19,7 +19,7 @@ export const useTodos = ({
     queryKey: ['todos', filter, addId],
     queryFn: () =>
       http
-        .get(`/api/v1/todos${filterParam}`)
+        .get(`/api/shell/todos${filterParam}`)
         .then((response) => response.json()),
   });
 };
@@ -28,14 +28,16 @@ export const useTodoShow = (todoId: number) => {
   return useQuery({
     queryKey: ['todos', todoId],
     queryFn: () =>
-      http.get(`/api/v1/todos/${todoId}`).then((response) => response.json()),
+      http
+        .get(`/api/shell/todos/${todoId}`)
+        .then((response) => response.json()),
   });
 };
 
 export const useTodosCreate = () =>
   useMutation({
     mutationFn: async (params: z.infer<typeof CreateTodo>) => {
-      const response = await http.post(`/api/v1/todos`, {
+      const response = await http.post(`/api/shell/todos`, {
         body: JSON.stringify({ ...params }),
       });
       const result = await response.json();
@@ -48,8 +50,8 @@ export const useTodosCreate = () =>
 
 export const useTodosUpdate = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof TodoList>) => {
-      const response = await http.put(`/api/v1/todos/${params.id}`, {
+    mutationFn: async (params: z.infer<typeof Todo>) => {
+      const response = await http.put(`/api/shell/todos/${params.id}`, {
         body: JSON.stringify({ ...params }),
       });
       const result = await response.json();
@@ -63,8 +65,8 @@ export const useTodosUpdate = () =>
 
 export const useTodosDestroy = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof DestroyTodoList>) => {
-      const response = await http.delete(`/api/v1/todos/${params.id}`, {
+    mutationFn: async (params: z.infer<typeof Todo>) => {
+      const response = await http.delete(`/api/shell/todos/${params.id}`, {
         body: JSON.stringify({ ...params }),
       });
       const result = await response.json();

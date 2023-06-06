@@ -20,14 +20,14 @@ export const fetchTodos =
     }
   };
 
-/** @type {import('../../../../../../app/api/shell/todos/[todoId]/route').HandlerResponse}  */
+/** @type {import('../../../../../../app/api/shell/todos/[id]/route').HandlerResponse}  */
 
 export type TodoItemResponse = ResponseTL<Todo>;
 
 export const fetchTodoItem =
   (fetcher: Fetcher) =>
-  async (todoId: string): TodoItemResponse => {
-    const url = `/api/shell/todos/${todoId}/`;
+  async (id: string): TodoItemResponse => {
+    const url = `/api/shell/todos/${id}/`;
 
     try {
       return await fetcher(url);
@@ -36,7 +36,7 @@ export const fetchTodoItem =
     }
   };
 
-/** @type {import('../../../../../../app/api/shell/todos/[todoId]/route').HandlerResponse}  */
+/** @type {import('../../../../../../app/api/shell/todos/route').HandlerResponse}  */
 
 export const createTodoItem =
   (fetcher: Fetcher) =>
@@ -54,5 +54,27 @@ export const createTodoItem =
       return await fetcher(url, { body: {} });
     } catch (error) {
       return handleError({ error, origin: 'createTodoItem' });
+    }
+  };
+
+/** @type {import('../../../../../../app/api/shell/todos/[id]/route').HandlerResponse}  */
+
+export const updateTodoItem =
+  (fetcher: Fetcher) =>
+  async (
+    id: number,
+    categories?: Category[],
+    description?: string,
+    expiration?: string,
+    frequency?: Frequency[],
+    day?: Day[],
+    status?: string,
+  ) => {
+    const url = `/api/shell/todos/${id}`;
+
+    try {
+      return await fetcher(url, { body: {} });
+    } catch (error) {
+      return handleError({ error, origin: 'updateTodoItem' });
     }
   };

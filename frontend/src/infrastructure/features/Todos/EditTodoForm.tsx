@@ -46,8 +46,11 @@ export const EditTodoForm = ({
     category: string;
     frequency: string;
     expiration?: string;
-    description?: string;
+    description: string;
   };
+
+  const todo =
+    !todoShowLoading && !todoShowFetching && todoShow.data ? todoShow.data : [];
 
   const handleOnSubmit = (values: ValueTypes) => {
     editTodo({
@@ -55,7 +58,7 @@ export const EditTodoForm = ({
       expiration: values.expiration,
       description: values.description,
     });
-    if (todoShow.categories[0]) {
+    if (todo.categories) {
       editCategory({
         todo_id: todoId,
         category_id: Number(values.category),
@@ -66,7 +69,7 @@ export const EditTodoForm = ({
         category_id: Number(values.category),
       });
     }
-    if (todoShow.frequencies[0]) {
+    if (todo.frequencies) {
       editFrequency({
         todo_id: todoId,
         frequency_id: Number(values.frequency),
@@ -89,12 +92,20 @@ export const EditTodoForm = ({
 
   if (todoShowLoading || todoShowFetching) {
   } else {
-    description = todoShow.description || '';
-    expiration = todoShow.expiration || '';
-    category = todoShow.categories.length > 0 ? todoShow.categories[0].id : '';
-    frequency =
-      todoShow.frequencies.length > 0 ? todoShow.frequencies[0].id : '';
+    description = todo.description || '';
+    expiration = todo.expiration || '';
+    category = todo.categories?.length > 0 ? todo.categories[0].id : '';
+    frequency = todo.frequencies?.length > 0 ? todo.frequencies[0].id : '';
   }
+
+  const categoriesList =
+    !loadingCategories && !fetchingCategories && categories
+      ? categories.data
+      : [];
+  const frequenciesList =
+    !loadingFrequencies && !fetchingFrequencies && frequencies
+      ? frequencies.data
+      : [];
 
   return todoShowLoading || todoShowFetching ? (
     <p>loading</p>
@@ -113,12 +124,8 @@ export const EditTodoForm = ({
         <FormFields
           errors={errors}
           touched={touched}
-          categories={categories}
-          loadingCategories={loadingCategories}
-          frequencies={frequencies}
-          loadingFrequencies={loadingFrequencies}
-          fetchingCategories={fetchingCategories}
-          fetchingFrequencies={fetchingFrequencies}
+          categories={categoriesList}
+          frequencies={frequenciesList}
         />
       )}
     </FormikForm>

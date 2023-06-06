@@ -24,9 +24,7 @@ export async function GET() {
   }
 
   const response: HandlerResponse = {
-    data: {
-      ...categories.data,
-    },
+    ...categories,
     error: null,
   };
 

@@ -55,3 +55,25 @@ export const fetchTodoItem = createFetchAndValidateData(
   fetchTodoItemAPI,
   validateTodo,
 );
+
+const createTodoItemAPI = async (
+  todoId: string,
+  passedOptions?: PassedOptions,
+): ResponseTL<z.infer<typeof Todo>> => {
+  const url = `${baseURL}/todos/${todoId}`;
+
+  const options = {
+    ...passedOptions,
+  } as PassedOptions;
+
+  try {
+    return await fetcher(url, options);
+  } catch (error) {
+    return handleError({ error, origin: 'createTodoItemAPI' });
+  }
+};
+
+export const createTodoItem = createFetchAndValidateData(
+  createTodoItemAPI,
+  validateTodo,
+);

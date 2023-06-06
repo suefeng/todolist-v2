@@ -21,7 +21,7 @@ export const createAPI = (apiGateway: APIGatewayWithoutInjections) => {
         ? createFetcher({
             getBaseUrl,
           })
-        : createFetcher({ getBaseUrl: () => '' });
+        : createFetcher({ getBaseUrl: () => getBaseUrl() });
 
       api = injectGatewayFetcher(apiGateway, gatewayFetcher);
       return api;
@@ -54,7 +54,7 @@ const injectGatewayFetcher = (
   return newAPI;
 };
 
-const getBaseUrl = () => process.env.API_GATEWAY;
+const getBaseUrl = () => process.env.MICRO_GATEWAY;
 
 type DeepFunctionReturnTypes<T> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

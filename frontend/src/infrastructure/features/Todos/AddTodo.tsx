@@ -22,10 +22,10 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
   } = useFrequencies();
 
   type ValueTypes = {
-    category: string;
-    frequency: string;
+    category?: string;
+    frequency?: string;
     expiration?: string;
-    description?: string;
+    description: string;
   };
 
   const handleOnSubmit = async (values: ValueTypes) => {
@@ -50,6 +50,15 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
     }, 3000);
   };
 
+  const categoriesList =
+    !loadingCategories && !fetchingCategories && categories
+      ? categories.data
+      : [];
+  const frequenciesList =
+    !loadingFrequencies && !fetchingFrequencies && frequencies
+      ? frequencies.data
+      : [];
+
   return (
     <FormikForm
       initialValues={{
@@ -65,12 +74,8 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
         <FormFields
           errors={errors}
           touched={touched}
-          categories={categories}
-          loadingCategories={loadingCategories}
-          frequencies={frequencies}
-          loadingFrequencies={loadingFrequencies}
-          fetchingCategories={fetchingCategories}
-          fetchingFrequencies={fetchingFrequencies}
+          categories={categoriesList}
+          frequencies={frequenciesList}
         />
       )}
     </FormikForm>

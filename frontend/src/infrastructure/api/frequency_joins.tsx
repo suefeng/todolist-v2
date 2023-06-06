@@ -7,7 +7,7 @@ import http from 'infrastructure/utilities/http';
 export const useFrequencyJoinCreation = () =>
   useMutation({
     mutationFn: async (params: z.infer<typeof FrequencyJoin>) => {
-      const response = await http.post(`/api/v1/frequency_joins`, {
+      const response = await http.post(`/api/shell/frequency_joins`, {
         body: JSON.stringify({ ...params }),
       });
       const result = await response.json();
@@ -22,7 +22,7 @@ export const useFrequencyJoinUpdate = () =>
   useMutation({
     mutationFn: async (params: z.infer<typeof FrequencyJoin>) => {
       const response = await http.put(
-        `/api/v1/frequency_joins/${params.todo_id}`,
+        `/api/shell/frequency_joins/${params.todo_id}`,
         {
           body: JSON.stringify({ ...params }),
         },
