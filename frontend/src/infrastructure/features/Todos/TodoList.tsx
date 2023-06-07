@@ -113,8 +113,8 @@ export const TodoList = ({ todoList }: TodoListTypes) => {
                   }
                 >
                   <EditTodo
-                    todoId={todo.id}
                     onTodoSave={() => handleOnTodoSave('edited', todo.id)}
+                    todoId={todo.id}
                   />
                   <DeleteTodo
                     todoId={todo.id}

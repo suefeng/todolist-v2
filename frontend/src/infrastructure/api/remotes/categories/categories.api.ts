@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
-import { CategoryIndex, validateCategoryIndex } from 'domain/server/Category';
+import {
+  CategoryIndex,
+  validateCategoryIndex,
+} from 'domain/server/Category/category';
 import { createFetchAndValidateData } from 'infrastructure/api/common/createFetchWithValidation';
 import { fetcher, PassedOptions } from 'infrastructure/api/common/fetcher';
 import { handleError } from 'infrastructure/api/common/handleError';

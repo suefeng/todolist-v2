@@ -1,29 +1,23 @@
-import { useCategories } from 'infrastructure/api/categories';
+import React from 'react';
+
 import { useCategoryJoinCreation } from 'infrastructure/api/category_joins';
-import { useFrequencies } from 'infrastructure/api/frequencies';
 import { useFrequencyJoinCreation } from 'infrastructure/api/frequency_joins';
 import { useTodosCreate } from 'infrastructure/api/todos';
 import FormikForm from 'application/components/form/FormikForm';
 import { FormFields } from './FormFields';
 
-export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
+type AddTodoTypes = {
+  onTodoSave: Function;
+};
+
+export const AddTodo = ({ onTodoSave }: AddTodoTypes) => {
   const { mutateAsync: createTodo } = useTodosCreate();
   const { mutateAsync: createCategory } = useCategoryJoinCreation();
   const { mutateAsync: createFrequency } = useFrequencyJoinCreation();
-  const {
-    data: categories,
-    isLoading: loadingCategories,
-    isFetching: fetchingCategories,
-  } = useCategories();
-  const {
-    data: frequencies,
-    isLoading: loadingFrequencies,
-    isFetching: fetchingFrequencies,
-  } = useFrequencies();
 
   type ValueTypes = {
-    category?: string;
-    frequency?: string;
+    categories?: string;
+    frequencies?: string;
     expiration?: string;
     description: string;
   };
@@ -33,39 +27,37 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
       description: values.description,
       expiration: values.expiration,
     });
-    if (values.category) {
+    if (values.categories) {
       await createCategory({
-        category_id: Number(values.category),
+        category_id: Number(values.categories),
         todo_id: todo.id,
       });
     }
-    if (values.frequency) {
+    if (values.frequencies) {
       await createFrequency({
-        frequency_id: Number(values.frequency),
+        frequency_id: Number(values.frequencies),
         todo_id: todo.id,
       });
     }
+    // if (values.days) {
+    //   await createDay({
+    //     day_id: Number(values.days),
+    //     todo_id: todo.id,
+    //   });
+    // }
     setTimeout(() => {
       onTodoSave();
     }, 3000);
   };
-
-  const categoriesList =
-    !loadingCategories && !fetchingCategories && categories
-      ? categories.data
-      : [];
-  const frequenciesList =
-    !loadingFrequencies && !fetchingFrequencies && frequencies
-      ? frequencies.data
-      : [];
 
   return (
     <FormikForm
       initialValues={{
         description: '',
         expiration: '',
-        category: '',
-        frequency: '',
+        categories: '',
+        frequencies: '',
+        days: '',
       }}
       handleOnSubmit={handleOnSubmit}
       buttonText="Add todo"
@@ -74,8 +66,6 @@ export const AddTodo = ({ onTodoSave }: { onTodoSave: Function }) => {
         <FormFields
           errors={errors}
           touched={touched}
-          categories={categoriesList}
-          frequencies={frequenciesList}
         />
       )}
     </FormikForm>

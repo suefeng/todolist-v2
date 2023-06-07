@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { DayIndex, validateDayIndex } from 'domain/server/Day';
+import { DayIndex, validateDayIndex } from 'domain/server/Day/day';
 import { createFetchAndValidateData } from 'infrastructure/api/common/createFetchWithValidation';
 import { fetcher, PassedOptions } from 'infrastructure/api/common/fetcher';
 import { handleError } from 'infrastructure/api/common/handleError';

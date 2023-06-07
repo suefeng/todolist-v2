@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { useCategories } from 'infrastructure/api/categories';
 import {
   useCategoryJoinCreation,
   useCategoryJoinUpdate,
 } from 'infrastructure/api/category_joins';
-import { useFrequencies } from 'infrastructure/api/frequencies';
 import {
   useFrequencyJoinCreation,
   useFrequencyJoinUpdate,
@@ -14,28 +12,18 @@ import { useTodoShow, useTodosUpdate } from 'infrastructure/api/todos';
 import FormikForm from 'application/components/form/FormikForm';
 import { FormFields } from './FormFields';
 
-export const EditTodoForm = ({
-  todoId,
-  onTodoSave,
-}: {
+type EditTodoTypes = {
   todoId: number;
   onTodoSave: Function;
-}) => {
+};
+
+export const EditTodoForm = ({ onTodoSave, todoId }: EditTodoTypes) => {
   const { mutate: editTodo } = useTodosUpdate();
   const { mutate: editCategory } = useCategoryJoinUpdate();
   const { mutate: editFrequency } = useFrequencyJoinUpdate();
   const { mutate: createCategory } = useCategoryJoinCreation();
   const { mutate: createFrequency } = useFrequencyJoinCreation();
-  const {
-    data: categories,
-    isLoading: loadingCategories,
-    isFetching: fetchingCategories,
-  } = useCategories();
-  const {
-    data: frequencies,
-    isLoading: loadingFrequencies,
-    isFetching: fetchingFrequencies,
-  } = useFrequencies();
+
   const {
     data: todoShow,
     isLoading: todoShowLoading,
@@ -43,8 +31,9 @@ export const EditTodoForm = ({
   } = useTodoShow(todoId);
 
   type ValueTypes = {
-    category: string;
-    frequency: string;
+    categories: string;
+    days: string;
+    frequencies: string;
     expiration?: string;
     description: string;
   };
@@ -61,23 +50,23 @@ export const EditTodoForm = ({
     if (todo.categories) {
       editCategory({
         todo_id: todoId,
-        category_id: Number(values.category),
+        category_id: Number(values.categories),
       });
-    } else if (values.category) {
+    } else if (values.categories) {
       createCategory({
         todo_id: todoId,
-        category_id: Number(values.category),
+        category_id: Number(values.categories),
       });
     }
     if (todo.frequencies) {
       editFrequency({
         todo_id: todoId,
-        frequency_id: Number(values.frequency),
+        frequency_id: Number(values.frequencies),
       });
-    } else if (values.frequency) {
+    } else if (values.frequencies) {
       createFrequency({
         todo_id: todoId,
-        frequency_id: Number(values.frequency),
+        frequency_id: Number(values.frequencies),
       });
     }
     setTimeout(() => {
@@ -87,25 +76,18 @@ export const EditTodoForm = ({
 
   let description = '';
   let expiration = '';
-  let category = '';
-  let frequency = '';
+  let categories = '';
+  let days = '';
+  let frequencies = '';
 
   if (todoShowLoading || todoShowFetching) {
   } else {
     description = todo.description || '';
     expiration = todo.expiration || '';
-    category = todo.categories?.length > 0 ? todo.categories[0].id : '';
-    frequency = todo.frequencies?.length > 0 ? todo.frequencies[0].id : '';
+    categories = todo.categories?.length > 0 ? todo.categories[0].id : '';
+    days = todo.days?.length > 0 ? todo.days[0].id : '';
+    frequencies = todo.frequencies?.length > 0 ? todo.frequencies[0].id : '';
   }
-
-  const categoriesList =
-    !loadingCategories && !fetchingCategories && categories
-      ? categories.data
-      : [];
-  const frequenciesList =
-    !loadingFrequencies && !fetchingFrequencies && frequencies
-      ? frequencies.data
-      : [];
 
   return todoShowLoading || todoShowFetching ? (
     <p>loading</p>
@@ -114,8 +96,9 @@ export const EditTodoForm = ({
       initialValues={{
         description: description,
         expiration: expiration,
-        category: category,
-        frequency: frequency,
+        categories: categories,
+        days: days,
+        frequencies: frequencies,
       }}
       handleOnSubmit={handleOnSubmit}
       buttonText="Edit todo"
@@ -124,8 +107,6 @@ export const EditTodoForm = ({
         <FormFields
           errors={errors}
           touched={touched}
-          categories={categoriesList}
-          frequencies={frequenciesList}
         />
       )}
     </FormikForm>

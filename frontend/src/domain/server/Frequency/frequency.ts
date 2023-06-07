@@ -5,10 +5,10 @@ import { generateTLMock } from 'infrastructure/services/http/httpMockGenerator';
 
 export const Frequency = z.object({
   id: z.number(),
-  name: z.string(),
+  name: z.enum(['daily', 'weekly', 'monthly']),
 });
 
-export const validateFrequency = <T,>(value: ResponseSuccess<T>) => {
+export const validateFrequency = <T>(value: ResponseSuccess<T>) => {
   return Frequency.safeParse(value);
 };
 
@@ -16,7 +16,7 @@ validateFrequency.mock = generateTLMock(Frequency);
 
 export const FrequencyIndex = z.array(Frequency);
 
-export const validateFrequencyIndex = <T,>(value: ResponseSuccess<T>) => {
+export const validateFrequencyIndex = <T>(value: ResponseSuccess<T>) => {
   return FrequencyIndex.safeParse(value);
 };
 

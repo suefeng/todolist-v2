@@ -3,7 +3,7 @@ import { z } from 'zod';
 import {
   FrequencyIndex,
   validateFrequencyIndex,
-} from 'domain/server/Frequency';
+} from 'domain/server/Frequency/frequency';
 import { createFetchAndValidateData } from 'infrastructure/api/common/createFetchWithValidation';
 import { fetcher, PassedOptions } from 'infrastructure/api/common/fetcher';
 import { handleError } from 'infrastructure/api/common/handleError';

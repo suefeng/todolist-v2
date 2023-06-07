@@ -1,4 +1,4 @@
 export interface Frequency {
   id: number;
-  name: string;
+  name: 'daily' | 'weekly' | 'monthly';
 }

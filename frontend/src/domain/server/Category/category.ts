@@ -8,7 +8,7 @@ export const Category = z.object({
   name: z.string(),
 });
 
-export const validateCategory = <T,>(value: ResponseSuccess<T>) => {
+export const validateCategory = <T>(value: ResponseSuccess<T>) => {
   return Category.safeParse(value);
 };
 
@@ -16,7 +16,7 @@ validateCategory.mock = generateTLMock(Category);
 
 export const CategoryIndex = z.array(Category);
 
-export const validateCategoryIndex = <T,>(value: ResponseSuccess<T>) => {
+export const validateCategoryIndex = <T>(value: ResponseSuccess<T>) => {
   return CategoryIndex.safeParse(value);
 };
 

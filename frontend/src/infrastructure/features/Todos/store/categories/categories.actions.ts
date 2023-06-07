@@ -1,9 +1,9 @@
 import { AppRegistry } from 'infrastructure/services/appRegistry/AppRegistry';
 
-export const initializeTodos =
+export const initializeCategories =
   ({ store, API }: AppRegistry) =>
   async () => {
-    const response = await API.todos.fetchTodos();
+    const response = await API.categories.fetchCategories();
 
     if (response.error !== null) {
       // eslint-disable-next-line no-console
@@ -13,6 +13,6 @@ export const initializeTodos =
     }
 
     store.setState((state) => {
-      state.todos.list = response.data;
+      state.categories.list = response.data;
     });
   };

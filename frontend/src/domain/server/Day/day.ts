@@ -16,7 +16,7 @@ export const Day = z.object({
   ]),
 });
 
-export const validateDay = <T,>(value: ResponseSuccess<T>) => {
+export const validateDay = <T>(value: ResponseSuccess<T>) => {
   return Day.safeParse(value);
 };
 
@@ -24,7 +24,7 @@ validateDay.mock = generateTLMock(Day);
 
 export const DayIndex = z.array(Day);
 
-export const validateDayIndex = <T,>(value: ResponseSuccess<T>) => {
+export const validateDayIndex = <T>(value: ResponseSuccess<T>) => {
   return DayIndex.safeParse(value);
 };
 

@@ -15,19 +15,3 @@ export const fetchDays = (fetcher: Fetcher) => async (): DaysResponse => {
     return handleError({ error, origin: 'fetchDays' });
   }
 };
-
-/** @type {import('../../../../../../app/api/shell/days/[dayId]/route').HandlerResponse}  */
-
-export type DayResponse = ResponseTL<Day>;
-
-export const fetchDayResponse =
-  (fetcher: Fetcher) =>
-  async (dayId: string): DayResponse => {
-    const url = `/api/shell/day/${dayId}/`;
-
-    try {
-      return await fetcher(url);
-    } catch (error) {
-      return handleError({ error, origin: 'fetchDayResponse' });
-    }
-  };

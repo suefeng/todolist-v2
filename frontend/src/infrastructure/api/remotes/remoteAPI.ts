@@ -4,8 +4,8 @@ import * as frequencyAPI from './frequencies/frequencies.api';
 import * as todoAPI from './todos/todos.api';
 
 export const remoteAPI = {
-  todos: todoAPI,
   categories: categoryAPI,
-  frequencies: frequencyAPI,
   days: dayAPI,
+  frequencies: frequencyAPI,
+  todos: todoAPI,
 };

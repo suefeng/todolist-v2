@@ -5,13 +5,12 @@ import { Button } from 'application/components/Button';
 import { Modal } from 'application/components/Modal';
 import { EditTodoForm } from './EditTodoForm';
 
-export const EditTodo = ({
-  todoId,
-  onTodoSave,
-}: {
+type EditTodoTypes = {
   todoId: number;
   onTodoSave: Function;
-}) => {
+};
+
+export const EditTodo = ({ todoId, onTodoSave }: EditTodoTypes) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -34,7 +33,7 @@ export const EditTodo = ({
         open={open}
         onClose={handleClose}
       >
-        <div className="m-auto mt-5 max-w-md bg-white p-5">
+        <div className="m-auto mt-5 max-w-xl bg-white p-5">
           <EditTodoForm
             todoId={todoId}
             onTodoSave={onTodoSave}

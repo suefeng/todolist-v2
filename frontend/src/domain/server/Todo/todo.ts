@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 import { ResponseSuccess } from 'infrastructure/api/common';
 import { generateTLMock } from 'infrastructure/services/http/httpMockGenerator';
-import { Category } from '../Category';
-import { Day } from '../Day';
-import { Frequency } from '../Frequency';
+import { Category } from '../Category/category';
+import { Day } from '../Day/day';
+import { Frequency } from '../Frequency/frequency';
 import { Note } from '../Note';
 
 export const Todo = z.object({
