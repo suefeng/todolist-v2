@@ -14,7 +14,7 @@ export const DeleteTodo = ({
   const { mutate: deleteTodo } = useTodosDestroy();
 
   const handleOnSubmit = (event: any) => {
-    deleteTodo({ id: todoId });
+    deleteTodo(todoId);
     setTimeout(() => {
       onTodoSave();
     }, 1000);

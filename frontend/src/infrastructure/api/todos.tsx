@@ -65,9 +65,9 @@ export const useTodosUpdate = () =>
 
 export const useTodosDestroy = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof Todo>) => {
-      const response = await http.delete(`/api/shell/todos/${params.id}`, {
-        body: JSON.stringify({ ...params }),
+    mutationFn: async (todoId: number) => {
+      const response = await http.delete(`/api/shell/todos/${todoId}`, {
+        body: {},
       });
       const result = await response.json();
 
