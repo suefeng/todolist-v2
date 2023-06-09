@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'react-query';
 import { z } from 'zod';
 
-import { CreateTodo, Todo } from 'domain/server/Todo/todo';
+import { Todo } from 'domain/server/Todo/todo';
 import http from 'infrastructure/utilities/http';
 
 export const useTodos = ({
@@ -36,7 +36,7 @@ export const useTodoShow = (todoId: number) => {
 
 export const useTodosCreate = () =>
   useMutation({
-    mutationFn: async (params: z.infer<typeof CreateTodo>) => {
+    mutationFn: async (params: Omit<z.infer<typeof Todo>, 'id'>) => {
       const response = await http.post(`/api/shell/todos`, {
         body: JSON.stringify({ ...params }),
       });

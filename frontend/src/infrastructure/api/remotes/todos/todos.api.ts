@@ -57,10 +57,9 @@ export const fetchTodoItem = createFetchAndValidateData(
 );
 
 const createTodoItemAPI = async (
-  todoId: string,
   passedOptions?: PassedOptions,
 ): ResponseTL<z.infer<typeof Todo>> => {
-  const url = `${baseURL}/todos/${todoId}`;
+  const url = `${baseURL}/todos/`;
 
   const options = {
     ...passedOptions,
@@ -75,5 +74,27 @@ const createTodoItemAPI = async (
 
 export const createTodoItem = createFetchAndValidateData(
   createTodoItemAPI,
+  validateTodo,
+);
+
+const updateTodoItemAPI = async (
+  todoId: number,
+  passedOptions?: PassedOptions,
+): ResponseTL<z.infer<typeof Todo>> => {
+  const url = `${baseURL}/todos/${todoId}`;
+
+  const options = {
+    ...passedOptions,
+  } as PassedOptions;
+
+  try {
+    return await fetcher(url, options);
+  } catch (error) {
+    return handleError({ error, origin: 'updateTodoItemAPI' });
+  }
+};
+
+export const updateTodoItem = createFetchAndValidateData(
+  updateTodoItemAPI,
   validateTodo,
 );

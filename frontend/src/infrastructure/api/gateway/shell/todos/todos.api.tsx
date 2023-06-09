@@ -1,6 +1,7 @@
 import { Category } from 'domain/entities/Category';
 import { Day } from 'domain/entities/Day';
 import { Frequency } from 'domain/entities/Frequency';
+import { Note } from 'domain/entities/Note';
 import { Todo } from 'domain/entities/Todo';
 import { Fetcher, ResponseTL } from 'infrastructure/api/common';
 import { handleError } from 'infrastructure/api/common/handleError';
@@ -26,8 +27,8 @@ export type TodoItemResponse = ResponseTL<Todo>;
 
 export const fetchTodoItem =
   (fetcher: Fetcher) =>
-  async (id: string): TodoItemResponse => {
-    const url = `/api/shell/todos/${id}/`;
+  async (todoId: number): TodoItemResponse => {
+    const url = `/api/shell/todos/${todoId}/`;
 
     try {
       return await fetcher(url);
@@ -41,12 +42,13 @@ export const fetchTodoItem =
 export const createTodoItem =
   (fetcher: Fetcher) =>
   async (
-    categories?: Category[],
-    description?: string,
-    expiration?: string,
-    frequency?: Frequency[],
-    day?: Day[],
-    status?: string,
+    description: string,
+    categories?: Category[] | null,
+    expiration?: string | null,
+    frequencies?: Frequency[] | null,
+    days?: Day[] | null,
+    status?: string | null,
+    note?: Note | null,
   ) => {
     const url = `/api/shell/todos`;
 
@@ -62,15 +64,16 @@ export const createTodoItem =
 export const updateTodoItem =
   (fetcher: Fetcher) =>
   async (
-    id: number,
-    categories?: Category[],
-    description?: string,
-    expiration?: string,
-    frequency?: Frequency[],
-    day?: Day[],
-    status?: string,
+    todoId: number,
+    description: string,
+    categories?: Category[] | null,
+    expiration?: string | null,
+    frequencies?: Frequency[] | null,
+    days?: Day[] | null,
+    status?: string | null,
+    note?: Note | null,
   ) => {
-    const url = `/api/shell/todos/${id}`;
+    const url = `/api/shell/todos/${todoId}`;
 
     try {
       return await fetcher(url, { body: {} });

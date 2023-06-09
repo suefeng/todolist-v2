@@ -32,22 +32,6 @@ export const validateTodoIndex = <T>(value: ResponseSuccess<T>) => {
 
 validateTodoIndex.mock = generateTLMock(TodoIndex);
 
-export const CreateTodo = z.object({
-  categories: z.array(Category).optional(),
-  description: z.string(),
-  expiration: z.string().optional().nullable(),
-  frequencies: z.array(Frequency).optional(),
-  days: z.array(Day).optional(),
-  status: z.string().optional(),
-  note: Note.optional(),
-});
-
-export const validateCreateTodo = <T>(value: ResponseSuccess<T>) => {
-  return CreateTodo.safeParse(value);
-};
-
-validateCreateTodo.mock = generateTLMock(CreateTodo);
-
 export const DestroyTodo = z.object({
   id: z.number(),
 });

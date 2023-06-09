@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { CreateTodo } from 'domain/entities/Todo';
+import { Todo } from 'domain/entities/Todo';
 import { formatDate } from 'domain/services/date.services';
 import { URLS } from 'infrastructure/router/routes';
 
@@ -13,7 +13,7 @@ export const TodoDetails = ({
   days,
   note,
   status,
-}: CreateTodo) => {
+}: Omit<Todo, 'id'>) => {
   const TodoLink = ({
     filterOption,
     typeOption,
