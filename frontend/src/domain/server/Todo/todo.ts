@@ -18,6 +18,24 @@ export const Todo = z.object({
   note: Note.optional(),
 });
 
+export const TodoForm = z.object({
+  categories: z.string().optional(),
+  description: z.string({
+    required_error: 'Please enter a description',
+  }),
+  expiration: z.coerce
+    .date({
+      invalid_type_error: 'Please select a date',
+    })
+    .optional()
+    .nullable(),
+  id: z.number(),
+  frequencies: z.string().optional(),
+  days: z.string().optional(),
+  status: z.string().optional(),
+  note: z.string().optional(),
+});
+
 export const validateTodo = <T>(value: ResponseSuccess<T>) => {
   return Todo.safeParse(value);
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { useCategoryJoinCreation } from 'infrastructure/api/category_joins';
-import { useFrequencyJoinCreation } from 'infrastructure/api/frequency_joins';
-import { useTodosCreate } from 'infrastructure/api/todos';
+import { TodoForm } from 'domain/server/Todo/todo';
+import { AppRegistry } from 'infrastructure/services/appRegistry/AppRegistry';
 import FormikForm from 'application/components/form/FormikForm';
 import { FormFields } from './FormFields';
 
@@ -11,43 +10,52 @@ type AddTodoTypes = {
 };
 
 export const AddTodo = ({ onTodoSave }: AddTodoTypes) => {
-  const { mutateAsync: createTodo } = useTodosCreate();
-  const { mutateAsync: createCategory } = useCategoryJoinCreation();
-  const { mutateAsync: createFrequency } = useFrequencyJoinCreation();
-
   type ValueTypes = {
     categories?: string;
     frequencies?: string;
     expiration?: string;
     description: string;
+    note?: string;
+    days?: string;
   };
 
-  const handleOnSubmit = async (values: ValueTypes) => {
-    const todo = await createTodo({
-      description: values.description,
-      expiration: values.expiration,
-    });
-    if (values.categories) {
-      await createCategory({
-        category_id: Number(values.categories),
-        todo_id: todo.id,
-      });
-    }
-    if (values.frequencies) {
-      await createFrequency({
-        frequency_id: Number(values.frequencies),
-        todo_id: todo.id,
-      });
-    }
-    // if (values.days) {
-    //   await createDay({
-    //     day_id: Number(values.days),
-    //     todo_id: todo.id,
-    //   });
-    // }
-    setTimeout(() => {
-      onTodoSave();
-    }, 3000);
+  const Schema = TodoForm;
+
+  const handleOnSubmit = (values: ValueTypes) => {
+    ({ store, API }: AppRegistry) =>
+      async () => {
+        const todo = await API.todos.createTodoItem(
+          values.description,
+          values.expiration,
+        );
+        if (values.categories) {
+          // await API.categories.createCategory({
+          //   category_id: Number(values.categories),
+          //   todo_id: todo.id,
+          // });
+        }
+        if (values.frequencies) {
+          // await API.frequencies.createFrequency({
+          //   frequency_id: Number(values.frequencies),
+          //   todo_id: todo.id,
+          // });
+        }
+        if (values.days) {
+          // await createDay({
+          //   day_id: Number(values.days),
+          //   todo_id: todo.id,
+          // });
+        }
+        // On Error
+        if (todo.error) {
+          // eslint-disable-next-line no-console
+          console.log(todo.error);
+          return;
+        }
+        setTimeout(() => {
+          onTodoSave();
+        }, 3000);
+      };
   };
 
   return (
@@ -58,9 +66,11 @@ export const AddTodo = ({ onTodoSave }: AddTodoTypes) => {
         categories: '',
         frequencies: '',
         days: '',
+        note: '',
       }}
       handleOnSubmit={handleOnSubmit}
       buttonText="Add todo"
+      Schema={Schema}
     >
       {(errors?: object, touched?: object) => (
         <FormFields

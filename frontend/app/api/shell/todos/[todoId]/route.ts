@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+import { Category } from 'domain/entities/Category';
+import { Day } from 'domain/entities/Day';
+import { Frequency } from 'domain/entities/Frequency';
+import { Note } from 'domain/entities/Note';
 import { PassedOptions } from 'infrastructure/api/common';
 import { hasErrorInResponse } from 'infrastructure/api/common/hasResponseError';
 import {
@@ -40,11 +44,38 @@ export async function GET(
 
 export type HandlerResponse = GetGatewayFetchReturnType<typeof fetchTodoItem>;
 
-export async function POST() {
+export async function POST(
+  request: Request,
+  {
+    params: {
+      description,
+      categories,
+      expiration,
+      frequencies,
+      days,
+      status,
+      note,
+    },
+  }: {
+    params: {
+      description: string;
+      categories?: Category[] | null;
+      expiration?: string | null;
+      frequencies?: Frequency[] | null;
+      days?: Day[] | null;
+      status?: string | null;
+      note?: Note | null;
+    };
+  },
+) {
+  const res = await request.json();
+
   const options = {
     log: true,
     headers: {},
     method: 'POST',
+    body: { ...res },
+    params: res.params,
   } as PassedOptions;
 
   const todos = await remoteAPI.todos.createTodoItem({}, options);
@@ -84,7 +115,7 @@ export async function PUT(
     method: 'PUT',
   } as PassedOptions;
 
-  const todos = await remoteAPI.todos.updateTodoItem({ todoId }, options);
+  const todos = await remoteAPI.todos.updateTodoItem(todoId, options);
 
   if (hasErrorInResponse(todos)) {
     return NextResponse.json(
