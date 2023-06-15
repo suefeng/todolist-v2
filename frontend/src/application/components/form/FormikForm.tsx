@@ -1,13 +1,15 @@
 import { Form, Formik } from 'formik';
+import { Schema } from 'zod';
+import { toFormikValidationSchema } from 'zod-formik-adapter';
 
 import { Button } from 'application/components/Button';
 
 type FormikFormTypes = {
   children: any;
-  handleOnSubmit?: any;
+  handleOnSubmit: any;
   initialValues: object;
-  validate?: ((values: object) => void | object | Promise<object>) & object;
   buttonText: string;
+  Schema: Schema;
 };
 
 type formikTypes = {
@@ -20,17 +22,17 @@ type formikTypes = {
   setFieldTouched?: object;
 };
 
-const genericOnSubmit = (values: any) => alert(JSON.stringify(values, null, 2));
-
 const FormikForm = ({
   children,
-  handleOnSubmit = genericOnSubmit,
+  handleOnSubmit,
   initialValues,
   buttonText,
+  Schema,
 }: FormikFormTypes) => (
   <Formik
     initialValues={initialValues}
     onSubmit={handleOnSubmit}
+    validationSchema={toFormikValidationSchema(Schema)}
   >
     {({
       handleSubmit,

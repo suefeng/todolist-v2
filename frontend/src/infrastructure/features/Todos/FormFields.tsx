@@ -58,7 +58,7 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
                 className="bg-white hover:bg-sky-400"
                 value=""
               >
-                select
+                categories
               </option>
               {categoriesList.map((option: Category) => (
                 <option
@@ -85,7 +85,7 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
                 className="bg-white hover:bg-sky-400"
                 value=""
               >
-                select
+                frequency
               </option>
               {frequenciesList.map((option: Frequency) => (
                 <option
@@ -110,7 +110,7 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
                 className="bg-white hover:bg-sky-400"
                 value=""
               >
-                select
+                days
               </option>
               {daysList.map((option: Day) => (
                 <option
