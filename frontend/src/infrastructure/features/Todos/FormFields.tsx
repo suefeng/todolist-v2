@@ -26,6 +26,7 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
   return (
     <>
       <div>
+        <label htmlFor="description">Description:</label>
         <Field
           id="description"
           name="description"
@@ -34,9 +35,20 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
           as={Textarea}
         />
       </div>
+      <div className="my-3">
+        <label htmlFor="note">Note:</label>
+        <Field
+          id="note"
+          name="note"
+          touched={touched}
+          errors={errors}
+          as={Textarea}
+        />
+      </div>
       <div className="flex gap-3">
         <div className="flex-1">
           <div className="my-3">
+            <label htmlFor="expiration">Expiration:</label>
             <Field
               id="expiration"
               name="expiration"
@@ -47,6 +59,7 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
             />
           </div>
           <div className="my-3">
+            <label htmlFor="categories">Categories:</label>
             <Field
               touched={touched}
               errors={errors}
@@ -74,12 +87,13 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
         </div>
         <div className="flex-1">
           <div className="my-3">
+            <label htmlFor="frequency">Frequency:</label>
             <Field
               touched={touched}
               errors={errors}
               as={Select}
-              id="frequencies"
-              name="frequencies"
+              id="frequency"
+              name="frequency"
             >
               <option
                 className="bg-white hover:bg-sky-400"
@@ -99,6 +113,7 @@ export const FormFields = ({ errors, touched }: FormFieldTypes) => {
             </Field>
           </div>
           <div className="my-3">
+            <label htmlFor="days">Days:</label>
             <Field
               touched={touched}
               errors={errors}

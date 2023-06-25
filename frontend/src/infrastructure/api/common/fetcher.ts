@@ -37,28 +37,31 @@ export const createFetcher =
 
     if (passedOptions.body) {
       options.body = JSON.stringify(passedOptions.body);
-      options.method = 'POST';
     }
 
     if (passedOptions.method) {
       options.method = passedOptions.method;
     }
 
-    return fetch(url, options).then((response) => {
-      // Ruby sometimes doing force redirects right after fetch
-      // We want to keep redirection responsibility in Next.js so just returning response here
-      if (response.type === 'opaqueredirect') {
-        return response;
-      }
+    return fetch(url, options)
+      .then((response) => {
+        // Ruby sometimes doing force redirects right after fetch
+        // We want to keep redirection responsibility in Next.js so just returning response here
+        if (response.type === 'opaqueredirect') {
+          return response;
+        }
 
-      if (passedOptions.returnResponse) {
-        return response;
-      }
+        if (passedOptions.returnResponse) {
+          return response;
+        }
 
-      const jsonData = response.json();
+        const jsonData = response.json();
 
-      return jsonData;
-    });
+        return jsonData;
+      })
+      .catch((error) => {
+        return error;
+      });
   };
 
 export type Fetcher = ReturnType<typeof createFetcher>;

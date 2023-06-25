@@ -17,7 +17,7 @@ export const categoriesInitialState: CategoriesInitialState = {
 };
 
 function ssrFirst(ssrState: State) {
-  storeService.setState((state) => {
+  storeService.setState((state: State) => {
     state.categories = ssrState.categories;
   });
 }

@@ -9,7 +9,7 @@ export const TodoDetails = ({
   description,
   expiration,
   categories,
-  frequencies,
+  frequency,
   days,
   note,
   status,
@@ -71,6 +71,11 @@ export const TodoDetails = ({
     >
       <span>
         <span className={`block text-lg ${statusStyle}`}>{description}</span>
+        {note && (
+          <span className={`block overflow-y-clip text-sm`}>
+            {note.message}
+          </span>
+        )}
         <span
           className={`flex gap-2 ${status === 'completed' ? 'hidden' : 'mt-2'}`}
         >
@@ -88,14 +93,13 @@ export const TodoDetails = ({
               typeOption="expiration"
             />
           )}
-          {frequencies &&
-            frequencies.map((frequency: { name: string }) => (
-              <TodoLink
-                key={frequency.name}
-                filterOption={frequency.name}
-                typeOption="frequency"
-              />
-            ))}
+          {frequency && (
+            <TodoLink
+              key={frequency.name}
+              filterOption={frequency.name}
+              typeOption="frequency"
+            />
+          )}
         </span>
         <span className="mt-2 flex gap-2">
           {days &&

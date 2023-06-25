@@ -17,7 +17,7 @@ export const daysInitialState: DaysInitialState = {
 };
 
 function ssrFirst(ssrState: State) {
-  storeService.setState((state) => {
+  storeService.setState((state: State) => {
     state.days = ssrState.days;
   });
 }

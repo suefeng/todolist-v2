@@ -17,7 +17,7 @@ export const frequenciesInitialState: FrequenciesInitialState = {
 };
 
 function ssrFirst(ssrState: State) {
-  storeService.setState((state) => {
+  storeService.setState((state: State) => {
     state.frequencies = ssrState.frequencies;
   });
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
-import { useTodosDestroy } from 'infrastructure/api/todos';
+import { API } from 'infrastructure/api';
 import { Button } from 'application/components/Button';
 
 export const DeleteTodo = ({
@@ -11,10 +11,12 @@ export const DeleteTodo = ({
   todoId: number;
   onTodoSave: Function;
 }) => {
-  const { mutate: deleteTodo } = useTodosDestroy();
-
-  const handleOnSubmit = (event: any) => {
-    deleteTodo(todoId);
+  const handleOnSubmit = async () => {
+    const response = await API.todos.deleteTodoItem(todoId);
+    if (response.error) {
+      console.log(response.error);
+      return;
+    }
     setTimeout(() => {
       onTodoSave();
     }, 1000);

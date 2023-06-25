@@ -1,3 +1,8 @@
 export interface Note {
-  note: string;
+  todo_id: number;
+  message: string;
+}
+
+export interface NoteDelete {
+  todo_id: number;
 }

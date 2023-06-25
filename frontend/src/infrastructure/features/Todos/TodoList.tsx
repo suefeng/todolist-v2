@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AlertColor } from '@mui/material';
 
 import { Todo } from 'domain/entities/Todo';
-import { useTodosUpdate } from 'infrastructure/api/todos';
+import { API } from 'infrastructure/api';
 import Accordion from 'application/components/Accordion';
 import { Toast } from 'application/components/Toast';
 import { AddTodo } from './AddTodo';
@@ -15,54 +15,62 @@ type TodoListTypes = {
 };
 
 export const TodoList = ({ todoList }: TodoListTypes) => {
-  const mutation = useTodosUpdate();
+  const [todos, setTodos] = useState<Todo[] | null>(todoList);
 
   const [toastMessage, setToastMessage] = useState('');
   const [toastSeverity, setToastSeverity] = useState<AlertColor>('success');
   const [showToast, setShowToast] = useState(false);
 
-  const handleOnChange = (event: any, todo: Todo) => {
+  const handleOnChange = async (event: any, todo: Todo) => {
     let todoStatus = todo.status;
     if (todoStatus === 'completed') {
-      todo.status = 'not-started';
       event.target.value = '';
       todoStatus = 'not-started';
       setToastMessage(`${todo.description} is back`);
       setShowToast(true);
       setToastSeverity('success');
     } else {
-      todo.status = 'completed';
       event.target.value = 'completed';
       todoStatus = 'completed';
       setToastMessage(`${todo.description} is done!`);
       setShowToast(true);
       setToastSeverity('success');
     }
-    mutation.mutate({
+    const response = await API.todos.updateTodoItem({
       id: todo.id,
       status: todoStatus,
-      description: todo.description,
-    });
+    } as Todo);
+    if (response.error || response.data === null) {
+      console.log(response.error);
+      return;
+    } else {
+      const response = await API.todos.fetchTodos();
+      setTodos(response.data);
+    }
   };
 
-  const handleOnTodoSave = (
+  const handleOnTodoSave = async (
     action: 'added' | 'edited' | 'removed',
     todoId?: number,
   ) => {
-    // let todo = todos.find((todo: Todo) => todo.id === todoId);
-    // refetch().then((response) => {
-    //   if (action === 'added') {
-    //     todo = response?.data.pop();
-    //   }
-    //   if (action === 'edited') {
-    //     todo = response?.data.find((todo: Todo) => todo.id === todoId);
-    //   }
-    //   setToastMessage(`${todo.description} is now ${action}`);
-    //   setShowToast(true);
-    //   setToastSeverity(
-    //     ['added', 'edited'].includes(action) ? 'success' : 'warning',
-    //   );
-    // });
+    let todo = todos.find((todo: Todo) => todo.id === todoId);
+    const response = await API.todos.fetchTodos();
+    if (response.error || response.data === null) {
+      console.log(response.error);
+      return;
+    }
+    setTodos(response.data);
+    if (action === 'added') {
+      todo = response?.data.pop();
+    }
+    if (action === 'edited') {
+      todo = response?.data.find((todo: Todo) => todo.id === todoId);
+    }
+    setToastMessage(`${todo?.description} is now ${action}`);
+    setShowToast(true);
+    setToastSeverity(
+      ['added', 'edited'].includes(action) ? 'success' : 'warning',
+    );
   };
 
   return (
@@ -80,8 +88,8 @@ export const TodoList = ({ todoList }: TodoListTypes) => {
         <AddTodo onTodoSave={() => handleOnTodoSave('added')} />
       </Accordion>
       <ul>
-        {todoList ? (
-          todoList.map((todo: Todo) => {
+        {todos ? (
+          todos.map((todo: Todo) => {
             const bgColor = todo.status === 'completed' ? '' : 'bg-sky-100';
 
             return (
@@ -103,7 +111,7 @@ export const TodoList = ({ todoList }: TodoListTypes) => {
                   description={todo.description}
                   expiration={todo.expiration}
                   categories={todo.categories}
-                  frequencies={todo.frequencies}
+                  frequency={todo.frequency}
                   days={todo.days}
                   note={todo.note}
                 />
@@ -114,7 +122,7 @@ export const TodoList = ({ todoList }: TodoListTypes) => {
                 >
                   <EditTodo
                     onTodoSave={() => handleOnTodoSave('edited', todo.id)}
-                    todoId={todo.id}
+                    todo={todo}
                   />
                   <DeleteTodo
                     todoId={todo.id}

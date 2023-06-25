@@ -2,8 +2,11 @@ import { z } from 'zod';
 
 import {
   Todo,
+  TodoDelete,
   TodoIndex,
   validateTodo,
+  validateTodoCreate,
+  validateTodoDelete,
   validateTodoIndex,
 } from 'domain/server/Todo/todo';
 import { createFetchAndValidateData } from 'infrastructure/api/common/createFetchWithValidation';
@@ -13,6 +16,7 @@ import { ResponseTL } from 'infrastructure/api/common/ResponseTL';
 
 const baseURL = `/api/v1`;
 
+// todos #index
 const fetchTodoAPI = async (
   passedOptions?: PassedOptions,
 ): ResponseTL<z.infer<typeof TodoIndex>> => {
@@ -34,6 +38,7 @@ export const fetchTodo = createFetchAndValidateData(
   validateTodoIndex,
 );
 
+// todos #show
 const fetchTodoItemAPI = async (
   todoId: string,
   passedOptions?: PassedOptions,
@@ -56,10 +61,12 @@ export const fetchTodoItem = createFetchAndValidateData(
   validateTodo,
 );
 
+// todos #create
 const createTodoItemAPI = async (
+  todo: Partial<z.infer<typeof Todo>>,
   passedOptions?: PassedOptions,
 ): ResponseTL<z.infer<typeof Todo>> => {
-  const url = `${baseURL}/todos/`;
+  const url = `${baseURL}/todos`;
 
   const options = {
     ...passedOptions,
@@ -74,14 +81,15 @@ const createTodoItemAPI = async (
 
 export const createTodoItem = createFetchAndValidateData(
   createTodoItemAPI,
-  validateTodo,
+  validateTodoCreate,
 );
 
+// todos #update
 const updateTodoItemAPI = async (
-  todoId: number,
+  todo: Partial<z.infer<typeof Todo>>,
   passedOptions?: PassedOptions,
 ): ResponseTL<z.infer<typeof Todo>> => {
-  const url = `${baseURL}/todos/${todoId}`;
+  const url = `${baseURL}/todos/${todo.id}`;
 
   const options = {
     ...passedOptions,
@@ -97,4 +105,27 @@ const updateTodoItemAPI = async (
 export const updateTodoItem = createFetchAndValidateData(
   updateTodoItemAPI,
   validateTodo,
+);
+
+// todos #delete
+const deleteTodoItemAPI = async (
+  todoId: number,
+  passedOptions?: PassedOptions,
+): ResponseTL<z.infer<typeof TodoDelete>> => {
+  const url = `${baseURL}/todos/${todoId}`;
+
+  const options = {
+    ...passedOptions,
+  } as PassedOptions;
+
+  try {
+    return await fetcher(url, options);
+  } catch (error) {
+    return handleError({ error, origin: 'deleteTodoItemAPI' });
+  }
+};
+
+export const deleteTodoItem = createFetchAndValidateData(
+  deleteTodoItemAPI,
+  validateTodoDelete,
 );

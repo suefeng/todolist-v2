@@ -16,8 +16,23 @@ export const todosInitialState: TodosInitialState = {
   ssrHandlers: [ssrFirst],
 };
 
+export type TodoItemInitialState = {
+  todoItem: {
+    list: Todo;
+  };
+  ssrHandlers: ((ssrState: State) => void)[];
+};
+
+export const todoItemInitialState: TodoItemInitialState = {
+  todoItem: {
+    list: {} as Todo,
+  },
+  ssrHandlers: [ssrFirst],
+};
+
 function ssrFirst(ssrState: State) {
-  storeService.setState((state) => {
+  storeService.setState((state: State) => {
+    state.todoItem = ssrState.todoItem;
     state.todos = ssrState.todos;
   });
 }

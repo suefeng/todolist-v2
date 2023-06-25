@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { EditOutlined } from '@mui/icons-material';
 
+import { Todo } from 'domain/entities/Todo';
 import { Button } from 'application/components/Button';
 import { Modal } from 'application/components/Modal';
 import { EditTodoForm } from './EditTodoForm';
 
 type EditTodoTypes = {
-  todoId: number;
+  todo: Todo;
   onTodoSave: Function;
 };
 
-export const EditTodo = ({ todoId, onTodoSave }: EditTodoTypes) => {
+export const EditTodo = ({ todo, onTodoSave }: EditTodoTypes) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -35,7 +36,7 @@ export const EditTodo = ({ todoId, onTodoSave }: EditTodoTypes) => {
       >
         <div className="m-auto mt-5 max-w-xl bg-white p-5">
           <EditTodoForm
-            todoId={todoId}
+            todo={todo}
             onTodoSave={onTodoSave}
           />
         </div>

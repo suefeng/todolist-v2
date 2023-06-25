@@ -1,106 +1,85 @@
 import React from 'react';
 
-import {
-  useCategoryJoinCreation,
-  useCategoryJoinUpdate,
-} from 'infrastructure/api/category_joins';
-import {
-  useFrequencyJoinCreation,
-  useFrequencyJoinUpdate,
-} from 'infrastructure/api/frequency_joins';
-import { useTodoShow, useTodosUpdate } from 'infrastructure/api/todos';
+import { Todo } from 'domain/entities/Todo';
+import { TodoForm } from 'domain/server/Todo/todo';
+import { API } from 'infrastructure/api';
 import FormikForm from 'application/components/form/FormikForm';
 import { FormFields } from './FormFields';
 
 type EditTodoTypes = {
-  todoId: number;
+  todo: Todo;
   onTodoSave: Function;
 };
 
-export const EditTodoForm = ({ onTodoSave, todoId }: EditTodoTypes) => {
-  const { mutate: editTodo } = useTodosUpdate();
-  const { mutate: editCategory } = useCategoryJoinUpdate();
-  const { mutate: editFrequency } = useFrequencyJoinUpdate();
-  const { mutate: createCategory } = useCategoryJoinCreation();
-  const { mutate: createFrequency } = useFrequencyJoinCreation();
-
-  const {
-    data: todoShow,
-    isLoading: todoShowLoading,
-    isFetching: todoShowFetching,
-  } = useTodoShow(todoId);
-
-  type ValueTypes = {
-    categories: string;
-    days: string;
-    frequencies: string;
-    expiration?: string;
-    description: string;
-  };
-
-  const todo =
-    !todoShowLoading && !todoShowFetching && todoShow.data ? todoShow.data : [];
-
-  const handleOnSubmit = (values: ValueTypes) => {
-    editTodo({
-      id: todoId,
-      expiration: values.expiration,
-      description: values.description,
-    });
-    if (todo.categories) {
-      editCategory({
-        todo_id: todoId,
-        category_id: Number(values.categories),
-      });
-    } else if (values.categories) {
-      createCategory({
-        todo_id: todoId,
-        category_id: Number(values.categories),
-      });
+export const EditTodoForm = ({ onTodoSave, todo }: EditTodoTypes) => {
+  const handleOnSubmit = async (values: Todo) => {
+    const todoResponse = await API.todos.updateTodoItem(values);
+    if (todoResponse.error) {
+      console.log(todoResponse.error);
+      return;
     }
-    if (todo.frequencies) {
-      editFrequency({
-        todo_id: todoId,
-        frequency_id: Number(values.frequencies),
-      });
-    } else if (values.frequencies) {
-      createFrequency({
-        todo_id: todoId,
-        frequency_id: Number(values.frequencies),
-      });
+    if (todoResponse.data) {
+      if (todoResponse.data?.categories && !!values.categories) {
+        await API.categoryJoins.updateCategoryJoin({
+          todo_id: Number(values.id),
+          category_id: Number(values.categories),
+        });
+      } else if (!!values.categories) {
+        await API.categoryJoins.createCategoryJoin({
+          todo_id: Number(values.id),
+          category_id: Number(values.categories),
+        });
+      }
+      if (todoResponse.data?.frequency && !!values.frequency) {
+        await API.frequencyJoins.updateFrequencyJoin({
+          todo_id: Number(values.id),
+          frequency_id: Number(values.frequency),
+        });
+      } else if (!!values.frequency) {
+        await API.frequencyJoins.createFrequencyJoin({
+          todo_id: Number(values.id),
+          frequency_id: Number(values.frequency),
+        });
+      }
+      if (todoResponse.data?.note && !!values.note) {
+        await API.notes.updateNoteItem({
+          todo_id: Number(values.id),
+          message: String(values.note),
+        });
+      } else if (!!values.note) {
+        await API.notes.createNoteItem({
+          todo_id: Number(values.id),
+          message: String(values.note),
+        });
+      }
     }
     setTimeout(() => {
       onTodoSave();
     }, 1000);
   };
 
-  let description = '';
-  let expiration = '';
-  let categories = '';
-  let days = '';
-  let frequencies = '';
+  const description = todo.description || '';
+  const expiration = todo.expiration || '';
+  const categories = !!todo.categories?.length
+    ? `${todo.categories[0].id}`
+    : '';
+  const days = !!todo.days?.length ? `${todo.days[0].id}` : '';
+  const frequency = todo.frequency?.id || '';
+  const note = todo?.note?.message || '';
 
-  if (todoShowLoading || todoShowFetching) {
-  } else {
-    description = todo.description || '';
-    expiration = todo.expiration || '';
-    categories = todo.categories?.length > 0 ? todo.categories[0].id : '';
-    days = todo.days?.length > 0 ? todo.days[0].id : '';
-    frequencies = todo.frequencies?.length > 0 ? todo.frequencies[0].id : '';
-  }
-
-  return todoShowLoading || todoShowFetching ? (
-    <p>loading</p>
-  ) : (
+  return (
     <FormikForm
       initialValues={{
+        id: todo.id,
         description: description,
         expiration: expiration,
         categories: categories,
         days: days,
-        frequencies: frequencies,
+        frequency: frequency,
+        note: note,
       }}
       handleOnSubmit={handleOnSubmit}
+      schema={TodoForm}
       buttonText="Edit todo"
     >
       {(errors?: object, touched?: object) => (

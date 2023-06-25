@@ -9,7 +9,7 @@ type FormikFormTypes = {
   handleOnSubmit: any;
   initialValues: object;
   buttonText: string;
-  Schema: Schema;
+  schema: Schema;
 };
 
 type formikTypes = {
@@ -27,12 +27,12 @@ const FormikForm = ({
   handleOnSubmit,
   initialValues,
   buttonText,
-  Schema,
+  schema,
 }: FormikFormTypes) => (
   <Formik
     initialValues={initialValues}
     onSubmit={handleOnSubmit}
-    validationSchema={toFormikValidationSchema(Schema)}
+    validationSchema={toFormikValidationSchema(schema)}
   >
     {({
       handleSubmit,
@@ -43,6 +43,7 @@ const FormikForm = ({
       handleBlur,
       setFieldTouched,
     }: formikTypes) => {
+      Object.keys(errors).length > 0 && console.log('errors', errors);
       return (
         <Form onSubmit={handleSubmit}>
           <>

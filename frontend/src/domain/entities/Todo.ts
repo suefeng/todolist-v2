@@ -8,8 +8,23 @@ export interface Todo {
   description: string;
   expiration?: string | null;
   id: number;
-  frequencies?: Frequency[] | null;
+  frequency?: Frequency | null;
   days?: Day[] | null;
+  status?: string | null;
+  note?: Note | null;
+}
+
+export interface TodoDelete {
+  id: number;
+}
+
+export interface TodoCreate {
+  categories?: Category[] | null;
+  description: string;
+  expiration?: string | null;
+  frequency?: Frequency | null;
+  days?: Day[] | null;
+  id?: number | null;
   status?: string | null;
   note?: Note | null;
 }
