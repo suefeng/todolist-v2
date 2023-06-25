@@ -60,9 +60,9 @@ class Api::V1::TodosController < ApplicationController
       only: %i[id description expiration status],
       include: {
         categories: { only: %i[id name] },
-        frequencies: { only: %i[id name] },
+        frequency: { only: %i[id name] },
         days: { only: %i[id name] },
-        note: { only: %i[note] }
+        note: { only: %i[todo_id message] }
       }
     }
   end

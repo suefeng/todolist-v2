@@ -42,11 +42,11 @@ class Api::V1::NotesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_note
-    @note = Note.find(params[:id])
+    @note = Note.find_by(todo_id: params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def note_params
-    params.require(:note).permit(:todo_id, :note)
+    params.require(:note).permit(:todo_id, :message)
   end
 end

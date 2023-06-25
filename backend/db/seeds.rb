@@ -15,7 +15,8 @@ todos = [
     expiration: '2023-03-01',
     frequency: [1],
     category: [1],
-    day: [1, 2, 3, 4, 5, 6, 7]
+    day: [1, 2, 3, 4, 5, 6, 7],
+    note: { message: "Remember to wipe the counters when you're done" }
   },
   {
     description: 'Sweep the floor the dishes',
@@ -35,30 +36,18 @@ todos = [
     expiration: '2023-03-04',
     frequency: [],
     category: [5],
-    day: []
+    day: [],
+    note: { message: 'Bring your pens and notebooks' }
   },
   {
     description: 'Read a book',
     expiration: nil,
     frequency: [1],
     category: [2],
-    day: [1, 3, 5]
+    day: [1, 3, 5],
+    note: { message: 'Remember to return the book after two weeks' }
   }
 ]
-
-notes = [{
-  id: 1,
-  todo_id: 1,
-  note: "Remember to wipe the counters when you're done"
-}, {
-  id: 2,
-  todo_id: 4,
-  note: 'Bring your pens and notebooks'
-}, {
-  id: 3,
-  todo_id: 5,
-  note: 'Remember to return the book after two weeks'
-}]
 
 categories.each do |category|
   Category.find_or_create_by(name: category)
@@ -87,11 +76,11 @@ todos.each do |todo|
       FrequencyJoin.find_or_create_by(todo_id: todo_row.id, frequency_id: frequency)
     end
   end
-  next unless todo[:day].present?
-
-  todo[:day].each do |day|
-    DayJoin.find_or_create_by(todo_id: todo_row.id, day_id: day)
+  if todo[:day].present?
+    todo[:day].each do |day|
+      DayJoin.find_or_create_by(todo_id: todo_row.id, day_id: day)
+    end
   end
-  note = notes.find { |note| note[:todo_id] == todo_row.id }
-  Note.find_or_create_by(todo_id: todo_row.id, note: note[:note])
+
+  Note.find_or_create_by(todo_id: todo_row.id, message: todo[:note][:message]) if todo[:note].present?
 end
