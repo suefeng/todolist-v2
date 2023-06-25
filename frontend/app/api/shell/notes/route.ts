@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { Todo } from 'domain/server/Todo/todo';
+import { Note } from 'domain/server/Note/note';
 import { PassedOptions } from 'infrastructure/api/common';
 import { hasErrorInResponse } from 'infrastructure/api/common/hasResponseError';
 import {
-  createTodoItem,
-  fetchTodos,
-} from 'infrastructure/api/gateway/shell/todos/todos.api';
+  createNoteItem,
+  fetchNotes,
+} from 'infrastructure/api/gateway/shell/notes/notes.api';
 import { remoteAPI } from 'infrastructure/api/remotes/remoteAPI';
 import { GetGatewayFetchReturnType } from 'infrastructure/utility-types/utility-types';
 
-// todos #index
+// notes #index
 export async function GET() {
   const options = {
     log: true,
@@ -19,40 +19,40 @@ export async function GET() {
     method: 'GET',
   } as PassedOptions;
 
-  const todos = await remoteAPI.todos.fetchTodo({}, options);
+  const notes = await remoteAPI.notes.fetchNote({}, options);
 
-  if (hasErrorInResponse(todos)) {
+  if (hasErrorInResponse(notes)) {
     return NextResponse.json(
       {
-        error: todos.error,
+        error: notes.error,
       },
       { status: 400 },
     );
   }
 
   const response: HandlerResponse = {
-    ...todos,
+    ...notes,
     error: null,
   };
 
   return NextResponse.json(response, { status: 200 });
 }
 
-export type HandlerResponse = GetGatewayFetchReturnType<typeof fetchTodos>;
+export type HandlerResponse = GetGatewayFetchReturnType<typeof fetchNotes>;
 
-// todos #create
+// notes #create
 export async function POST(request: Request) {
-  const todoBody = (await request.json()) as Partial<z.infer<typeof Todo>>;
+  const noteBody = (await request.json()) as Partial<z.infer<typeof Note>>;
 
   const options = {
-    body: todoBody,
+    body: noteBody,
     log: true,
     headers: {},
     method: 'POST',
   } as PassedOptions;
 
   try {
-    const response = await remoteAPI.todos.createTodoItem(todoBody, options);
+    const response = await remoteAPI.notes.createNoteItem(noteBody, options);
 
     return NextResponse.json(
       { data: response.data, error: null },
@@ -68,5 +68,5 @@ export async function POST(request: Request) {
 }
 
 export type HandlerPOSTResponse = GetGatewayFetchReturnType<
-  typeof createTodoItem
+  typeof createNoteItem
 >;

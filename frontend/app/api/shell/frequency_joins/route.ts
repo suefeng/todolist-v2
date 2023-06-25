@@ -1,58 +1,67 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { Todo } from 'domain/server/Todo/todo';
+import { FrequencyJoin } from 'domain/server/FrequencyJoin/fequencyJoin';
 import { PassedOptions } from 'infrastructure/api/common';
 import { hasErrorInResponse } from 'infrastructure/api/common/hasResponseError';
 import {
-  createTodoItem,
-  fetchTodos,
-} from 'infrastructure/api/gateway/shell/todos/todos.api';
+  createFrequencyJoin,
+  fetchFrequencyJoins,
+} from 'infrastructure/api/gateway/shell/frequencyJoins/frequencyJoins.api';
 import { remoteAPI } from 'infrastructure/api/remotes/remoteAPI';
 import { GetGatewayFetchReturnType } from 'infrastructure/utility-types/utility-types';
 
-// todos #index
+// frequency_joins #index
 export async function GET() {
   const options = {
     log: true,
     headers: {},
-    method: 'GET',
   } as PassedOptions;
 
-  const todos = await remoteAPI.todos.fetchTodo({}, options);
+  const frequencyJoins = await remoteAPI.frequencyJoins.fetchFrequencyJoins(
+    {},
+    options,
+  );
 
-  if (hasErrorInResponse(todos)) {
+  if (hasErrorInResponse(frequencyJoins)) {
     return NextResponse.json(
       {
-        error: todos.error,
+        error: frequencyJoins.error,
       },
       { status: 400 },
     );
   }
 
   const response: HandlerResponse = {
-    ...todos,
+    ...frequencyJoins,
     error: null,
   };
 
   return NextResponse.json(response, { status: 200 });
 }
 
-export type HandlerResponse = GetGatewayFetchReturnType<typeof fetchTodos>;
+export type HandlerResponse = GetGatewayFetchReturnType<
+  typeof fetchFrequencyJoins
+>;
 
-// todos #create
+// frequency_joins #create
 export async function POST(request: Request) {
-  const todoBody = (await request.json()) as Partial<z.infer<typeof Todo>>;
+  const frequencyJoinBody = (await request.json()) as Partial<
+    z.infer<typeof FrequencyJoin>
+  >;
 
   const options = {
-    body: todoBody,
+    body: frequencyJoinBody,
     log: true,
     headers: {},
     method: 'POST',
   } as PassedOptions;
 
   try {
-    const response = await remoteAPI.todos.createTodoItem(todoBody, options);
+    const response = await remoteAPI.frequencyJoins.createFrequencyJoin(
+      frequencyJoinBody,
+      options,
+    );
 
     return NextResponse.json(
       { data: response.data, error: null },
@@ -68,5 +77,5 @@ export async function POST(request: Request) {
 }
 
 export type HandlerPOSTResponse = GetGatewayFetchReturnType<
-  typeof createTodoItem
+  typeof createFrequencyJoin
 >;

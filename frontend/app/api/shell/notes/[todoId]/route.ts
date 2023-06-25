@@ -1,21 +1,21 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { Todo } from 'domain/server/Todo/todo';
+import { Note } from 'domain/server/Note/note';
 import { PassedOptions } from 'infrastructure/api/common';
 import { hasErrorInResponse } from 'infrastructure/api/common/hasResponseError';
 import {
-  deleteTodoItem,
-  fetchTodoItem,
-  updateTodoItem,
-} from 'infrastructure/api/gateway/shell/todos/todos.api';
+  deleteNoteItem,
+  fetchNoteItem,
+  updateNoteItem,
+} from 'infrastructure/api/gateway/shell/notes/notes.api';
 import { remoteAPI } from 'infrastructure/api/remotes/remoteAPI';
 import { GetGatewayFetchReturnType } from 'infrastructure/utility-types/utility-types';
 
-// todo #show
+// note #show
 export async function GET(
   request: Request,
-  { params: { todoId } }: { params: { todoId: string } },
+  { params: { noteId } }: { params: { noteId: string } },
 ) {
   const options = {
     log: true,
@@ -23,40 +23,40 @@ export async function GET(
     method: 'GET',
   } as PassedOptions;
 
-  const todo = await remoteAPI.todos.fetchTodoItem(todoId, options);
+  const note = await remoteAPI.notes.fetchNoteItem(noteId, options);
 
-  if (hasErrorInResponse(todo)) {
+  if (hasErrorInResponse(note)) {
     return NextResponse.json(
       {
-        error: todo.error,
+        error: note.error,
       },
       { status: 400 },
     );
   }
 
   const response: HandlerResponse = {
-    ...todo,
+    ...note,
     error: null,
   };
 
   return NextResponse.json(response, { status: 200 });
 }
 
-export type HandlerResponse = GetGatewayFetchReturnType<typeof fetchTodoItem>;
+export type HandlerResponse = GetGatewayFetchReturnType<typeof fetchNoteItem>;
 
-// todo #update
+// note #update
 export async function PUT(request: Request) {
-  const todoBody = (await request.json()) as Partial<z.infer<typeof Todo>>;
+  const noteBody = (await request.json()) as Partial<z.infer<typeof Note>>;
 
   const options = {
-    body: todoBody,
+    body: noteBody,
     log: true,
     headers: {},
     method: 'PUT',
   } as PassedOptions;
 
   try {
-    const response = await remoteAPI.todos.updateTodoItem(todoBody, options);
+    const response = await remoteAPI.notes.updateNoteItem(noteBody, options);
 
     return NextResponse.json(
       { data: response.data, error: null },
@@ -72,27 +72,27 @@ export async function PUT(request: Request) {
 }
 
 export type HandlerPUTResponse = GetGatewayFetchReturnType<
-  typeof updateTodoItem
+  typeof updateNoteItem
 >;
 
-// todo #delete
+// note #delete
 export async function DELETE(
   request: Request,
   {
-    params: { todoId },
+    params: { noteId },
   }: {
-    params: { todoId: number };
+    params: { noteId: number };
   },
 ) {
   const options = {
-    body: { id: todoId },
+    body: { id: noteId },
     headers: {},
     log: true,
     method: 'DELETE',
   } as PassedOptions;
 
   try {
-    const response = await remoteAPI.todos.deleteTodoItem(todoId, options);
+    const response = await remoteAPI.notes.deleteNoteItem(noteId, options);
 
     return NextResponse.json(
       { data: response.data, error: null },
@@ -108,5 +108,5 @@ export async function DELETE(
 }
 
 export type HandlerDELETEResponse = GetGatewayFetchReturnType<
-  typeof deleteTodoItem
+  typeof deleteNoteItem
 >;
