@@ -28,7 +28,7 @@ module Api
         end
       end
 
-        # PATCH/PUT /notes/1
+      # PATCH/PUT /notes/1
       def update
         if @note.update(note_params)
           render json: @note

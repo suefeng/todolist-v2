@@ -62,6 +62,15 @@ module Api
         }
       end
 
+      # Only allow a trusted parameter "white list" through.
+      def todo_params
+        params.require(:todo).permit(
+          :description,
+          :expiration,
+          :status
+        )
+      end
+
       def render_categories
         @todos.includes(:categories).where(categories: { name: filter })
       end
