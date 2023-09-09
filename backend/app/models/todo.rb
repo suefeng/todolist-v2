@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Todo < ApplicationRecord
   has_many :category_joins, dependent: :destroy
   has_many :categories, through: :category_joins

@@ -1,9 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  frequency_id: 1
-  todo_id: 1
-
-two:
-  frequency_id: 1
-  todo_id: 1
