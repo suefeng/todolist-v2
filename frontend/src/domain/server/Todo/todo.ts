@@ -60,7 +60,7 @@ export const validateTodoDelete = <T>(value: ResponseSuccess<T>) => {
 validateTodoDelete.mock = generateTLMock(TodoDelete);
 
 export const TodoForm = z.object({
-  categories: z.string().optional(),
+  categories: z.union([z.string(), z.number()]).optional(),
   description: z.string({
     required_error: 'Please enter a description',
   }),
@@ -70,8 +70,8 @@ export const TodoForm = z.object({
     })
     .optional()
     .nullable(),
-  frequency: z.string().optional(),
-  days: z.string().optional(),
+  frequency: z.union([z.string(), z.number()]).optional(),
+  days: z.union([z.string(), z.number()]).optional(),
   status: z.string().optional(),
-  note: z.string().optional(),
+  note: z.union([z.string(), z.number()]).optional(),
 });

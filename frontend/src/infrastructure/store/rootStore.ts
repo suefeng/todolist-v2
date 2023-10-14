@@ -15,6 +15,10 @@ import {
   daysInitialState,
 } from 'infrastructure/store/days/days.store';
 import {
+  DayJoinsInitialState,
+  dayJoinsInitialState,
+} from 'infrastructure/store/dayJoins/dayJoins.store';
+import {
   FrequenciesInitialState,
   frequenciesInitialState,
 } from 'infrastructure/store/frequencies/frequencies.store';
@@ -40,6 +44,7 @@ export const initializeStore = (preloadedState: State = {} as State) => {
     immer(() => ({
       ...omit(categoriesInitialState, 'ssrHandlers'),
       ...omit(daysInitialState, 'ssrHandlers'),
+      ...omit(dayJoinsInitialState, 'ssrHandlers'),
       ...omit(frequenciesInitialState, 'ssrHandlers'),
       ...omit(todosInitialState, 'ssrHandlers'),
       ...omit(todoItemInitialState, 'ssrHandlers'),
@@ -51,6 +56,7 @@ export const initializeStore = (preloadedState: State = {} as State) => {
       ssrHandlers: [
         ...categoriesInitialState.ssrHandlers,
         ...daysInitialState.ssrHandlers,
+        ...dayJoinsInitialState.ssrHandlers,
         ...frequenciesInitialState.ssrHandlers,
         ...todosInitialState.ssrHandlers,
         ...todoItemInitialState.ssrHandlers,
@@ -67,6 +73,7 @@ export type RootStore = ReturnType<typeof initializeStore>;
 
 export type State = CategoriesInitialState &
   DaysInitialState &
+  DayJoinsInitialState &
   FrequenciesInitialState &
   TodosInitialState &
   TodoItemInitialState &

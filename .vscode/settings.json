@@ -1,0 +1,56 @@
+{
+  "settings": {
+    "workbench.colorTheme": "Monokai",
+    "workbench.sideBar.location": "left",
+    "editor.minimap.enabled": false,
+    "window.nativeTabs": true,
+    "editor.wordWrap": "on",
+    "workbench.iconTheme": "Monokai Pro (Filter Octagon) Icons",
+    "git.autofetch": true,
+    "sftp.downloadWhenOpenInRemoteExplorer": true,
+    "markdownlint.run": "onSave",
+    "markdown-preview-enhanced.enableHTML5Embed": true,
+    "editor.tabSize": 2,
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "window.zoomLevel": 1,
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "eslint.alwaysShowStatus": true,
+    "eslint.debug": true,
+    "eslint.format.enable": true,
+    "eslint.packageManager": "yarn",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "javascript.updateImportsOnFileMove.enabled": "never",
+    "git.ignoreMissingGitWarning": true,
+    "diffEditor.maxComputationTime": 0,
+    "editor.formatOnSave": true,
+    "[python]": {
+      "editor.formatOnType": true
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "ruby.useBundler": true, //run non-lint commands with bundle exec
+    "ruby.useLanguageServer": true, // use the internal language server (see below)
+    "ruby.lint": {
+      "rubocop": {
+        "useBundler": true // enable rubocop via bundler
+      }
+    },
+    "ruby.format": "rubocop" // use rubocop for formatting
+  }
+}

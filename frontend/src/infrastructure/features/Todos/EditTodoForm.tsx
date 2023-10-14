@@ -52,6 +52,17 @@ export const EditTodoForm = ({ onTodoSave, todo }: EditTodoTypes) => {
           message: String(values.note),
         });
       }
+      if (todoResponse.data?.days && !!values.days) {
+        await API.dayJoins.updateDayJoin({
+          todo_id: Number(values.id),
+          day_id: Number(values.days),
+        });
+      } else if (!!values.days) {
+        await API.dayJoins.createDayJoin({
+          todo_id: Number(values.id),
+          day_id: Number(values.days),
+        });
+      }
     }
     setTimeout(() => {
       onTodoSave();
